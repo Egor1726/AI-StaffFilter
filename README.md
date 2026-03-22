@@ -1,20 +1,22 @@
-# AI-StaffFilter
+# StaffFIlter_Backend
 
-AI-powered system for resume analysis and candidate filtering.
 
-## Project structure
+-----------------------
+http://localhost:8080/swagger-ui/index.html#/%D0%A0%D0%B5%D0%B7%D1%8E%D0%BC%D0%B5/uploadAndProcess
+для просмотра после запуска ResumeApplication.java
 
-frontend/ – web interface  
-backend/ – Spring API  
-ai/ – neural network and resume processing  
-docs/ – documentation and meeting notes
+Описание файлов
 
-## Workflow
+ResumeApplication.java - Точка входа. Запускает Spring Boot приложение
 
-Development is done through feature branches.
+ResumeController.java - Обрабатывает HTTP-запросы: загрузка файлов (эндпоинт /upload) и скачивание результата (эндпоинт /result)
 
-main – stable branch
+FileStorageService.java -  Работа с файлами: сохранение, распаковка ZIP, чтение TXT, создание отчета
 
-feature/... – new functionality
+TaskService.java - Управление задачами: хранение статусов обработки в памяти с помощью хэш мапы
 
-Changes are merged via Pull Requests.
+Task.java - Модель задачи: хранит ID, статус (PROCESSING/COMPLETED) и путь к файлу
+
+UploadResponse.java - Формат ответа сервера при загрузке: { taskId, status, message }
+
+Каждая загрузка архива и требований по своей сути представляет отдельную задачу, их мы и сохраняем в мапе. Файлы пользователя скачиваются в папку uploads, в папке uploads содержится подпапка с именем задачи

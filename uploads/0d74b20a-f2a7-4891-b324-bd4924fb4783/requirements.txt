@@ -1,0 +1,83 @@
+package org.example;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.Record;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.UUID;
+
+public class OpenWeatherTest {
+
+    private static final ObjectMapper M = new ObjectMapper();
+    private final OkHttpClient client = new OkHttpClient();
+
+
+    public Record fetchRecord() {
+        String apiKey = System.getenv("OPENWEATHER_API_KEY");
+        if (apiKey == null || apiKey.isEmpty()) {
+            System.err.println("Environment variable OPENWEATHER_API_KEY is not set");
+            return null;
+        }
+
+        String url = "https://api.openweathermap.org/data/2.5/weather" +
+                "?lat=55.75&lon=37.61&units=metric&appid=" + apiKey;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+
+            if (!response.isSuccessful()) {
+                System.err.println("HTTP error: " + response.code());
+                return null;
+            }
+
+            if (response.body() == null) {
+                System.err.println("Empty response body");
+                return null;
+            }
+
+            String body = response.body().string();
+            JsonNode json = M.readTree(body);
+            
+            String id = UUID.randomUUID().toString();
+            String source = "openweathermap";
+            String timestamp = Instant.now().toString();
+
+            Record record = new Record(id, source, timestamp, json);
+            return record;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void printWeather(JsonNode json) {
+        if (json == null) {
+            System.out.println("No data to print");
+            return;
+        }
+        String city = json.path("name").asText();
+        double temp = json.path("main").path("temp").asDouble();
+        int humidity = json.path("main").path("humidity").asInt();
+        String description = "n/a";
+        JsonNode weather = json.path("weather");
+        if (weather != null && weather.isArray() && weather.size() > 0) {
+            description = weather.get(0).path("description").asText();
+        }
+
+        System.out.printf(
+                "City: %s, Temp: %.1f°C, Humidity: %d%%, Weather: %s%n",
+                city, temp, humidity, description
+        );
+    }
+}
