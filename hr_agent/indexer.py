@@ -78,4 +78,3 @@ def search(query: str) -> list[dict]:
 def delete_resume(doc_id: str) -> None:
     collection = get_collection()
     collection.delete(ids=[doc_id])
-
