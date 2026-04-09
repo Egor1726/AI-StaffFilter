@@ -26,3 +26,4 @@ print(f"\nНавыки {row[0]}: {json.loads(row[1])}")
 conn.close()
 
 print(f"\nВакансия (первые 100 символов):\n{vacancy_text[:100]}")
+print("the end")
