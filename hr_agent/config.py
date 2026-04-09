@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 # Загружаем переменные из .env в корне проекта
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
-MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
+MODEL_NAME = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
 # Параметры генерации — оптимизированы для структурированного вывода (JSON)
 # Чем ниже temperature, тем стабильнее формат, но меньше вариативности
 MODEL_OPTIONS = {
@@ -15,10 +15,11 @@ MODEL_OPTIONS = {
 }
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 CHROMA_DB_PATH = os.getenv("CHROMA_DB_PATH", "./chroma_db")
-TOP_K = int(os.getenv("TOP_K", "5"))
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "resumes")
 
 print(f"Конфигурация загружена:")
 print(f"  Модель: {MODEL_NAME}")
 print(f"  Путь к ChromaDB: {CHROMA_DB_PATH}")
 print(f"  Top K: {TOP_K}")
 print(f"  Опции модели: {MODEL_OPTIONS}")
+print(f"  Коллекция: {COLLECTION_NAME}")
