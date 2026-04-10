@@ -1,6 +1,6 @@
 import requests
 import chromadb
-from config import OLLAMA_HOST, EMBED_MODEL, CHROMA_DB_PATH, COLLECTION_NAME
+from config import OLLAMA_HOST, CHROMA_DB_PATH, COLLECTION_NAME
 from txt_processor import process_files
 
 
