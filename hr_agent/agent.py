@@ -2,15 +2,17 @@
 
 import json
 import ollama
-from config import MODEL_NAME, MODEL_OPTIONS
+from config import MODEL_NAME
 
 
 def call_llm(prompt: str) -> str:
-    """Базовый вызов модели через Ollama."""
     response = ollama.chat(
         model=MODEL_NAME,
         messages=[{"role": "user", "content": prompt}],
-        options=MODEL_OPTIONS
+        options={
+            "temperature": 0.1,
+            "num_predict": 1000
+        }
     )
     return response["message"]["content"]
 

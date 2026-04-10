@@ -5,7 +5,6 @@ from agent import evaluate_candidate
 with open("test_data/vacancy.txt", "r", encoding="utf-8") as f:
     vacancy = f.read()
 
-# Тестовый кандидат в формате от человека 1
 candidate = {
     {
   "id": "candidate_0000",
