@@ -16,8 +16,8 @@ def get_collection():
 
 def get_embedding(text: str) -> list[float]:
     response = requests.post(
-        f"{OLLAMA_HOST}/api/embed",  # ← было /api/embeddings
-        json={"model": EMBED_MODEL, "input": text}  # ← было "prompt", стало "input"
+        f"{OLLAMA_HOST}/api/embed",
+        json={"model": EMBED_MODEL, "input": text}  
     )
     response.raise_for_status()
     return response.json()["embeddings"][0]  # ← было ["embedding"]
@@ -114,16 +114,7 @@ def delete_resume(doc_id: str) -> None:
     collection.delete(ids=[doc_id])
     print(f"[indexer] Удалено: {doc_id}")
 
-
-# ── Тест ───────────────────────────────────────────────────
-
 if __name__ == "__main__":
-    # 1. Индексируем все резюме
+    print("[indexer] Запуск индексации...")
     vacancy_text = index_all("resumes.txt", "vacancy.txt")
-
-    # 2. Ищем по тексту вакансии
-    print("\n── Результаты поиска ────────────────────────────")
-    results = search(vacancy_text)
-
-    for r in results:
-        print(f"{r['score']} | {r['name']} | {r['position']} | {r['skills']}")
+    print("[indexer] Готово. База данных обновлена.")
