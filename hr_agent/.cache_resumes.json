@@ -1,0 +1,1998 @@
+{
+  "source_path": "C:\\Users\\PEPITO\\Documents\\GitHub\\AI-StaffFilter\\hr_agent\\resumes.txt",
+  "source_hash": "b4adeb757414afbf9df05a7224745b2d",
+  "cache_time": "2026-04-10 22:53:19",
+  "resumes": [
+    {
+      "name": "Андрей Козлов",
+      "email": "a.kozlov@email.com",
+      "phone": "+7-921-111-22-33",
+      "position": "ML Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "FAISS",
+        "LangChain",
+        "Docker",
+        "Git"
+      ],
+      "education": "МФТИ, Прикладная математика, 2019",
+      "languages": [],
+      "expected_salary": "250000 руб",
+      "about": "Работаю с LLM и RAG-системами. Файнтюнил модели на корпоративных данных. Деплоил через FastAPI. Английский B2."
+    },
+    {
+      "name": "Ольга Никитина",
+      "email": "o.nikitina@gmail.com",
+      "phone": "+7-903-222-33-44",
+      "position": "NLP Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "HuggingFace",
+        "spaCy",
+        "NLTK",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Лингвистика и компьютерные науки, 2020",
+      "languages": [],
+      "expected_salary": "210000 руб",
+      "about": "Специализируюсь на обработке естественного языка. Строила классификаторы текста, системы извлечения информации. Понимаю принципы работы LLM и трансформеров."
+    },
+    {
+      "name": "Павел Зайцев",
+      "email": "p.zaitsev@yandex.ru",
+      "phone": "+7-916-333-44-55",
+      "position": "Python Developer",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "Git",
+        "HTML",
+        "CSS"
+      ],
+      "education": "РГГУ, Информационные системы, 2021",
+      "languages": [],
+      "expected_salary": "120000 руб",
+      "about": "Разрабатываю веб-приложения на Django. ML не изучал, но интересуюсь направлением. Хочу развиваться в сторону backend для AI-продуктов."
+    },
+    {
+      "name": "Наталья Орлова",
+      "email": "n.orlova@email.com",
+      "phone": "+7-999-444-55-66",
+      "position": "Data Scientist / ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "pandas",
+        "SQL",
+        "Docker",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "МГУ, Математика, 2018",
+      "languages": [],
+      "expected_salary": "270000 руб",
+      "about": "Строю ML-пайплайны от сбора данных до деплоя. Работала с NLP-задачами: классификация, суммаризация, семантический поиск. Знакома с RAG-архитектурой."
+    },
+    {
+      "name": "Тимур Исаев",
+      "email": "t.isaev@mail.ru",
+      "phone": "+7-926-555-66-77",
+      "position": "Junior ML Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "pandas",
+        "Git"
+      ],
+      "education": "Иннополис, Наука о данных, 2023",
+      "languages": [],
+      "expected_salary": "100000 руб",
+      "about": "Выпускник. Делал дипломный проект по классификации текстов с использованием BERT. Базово знаком с HuggingFace. Готов активно развиваться в NLP."
+    },
+    {
+      "name": "Виктор Беляев",
+      "email": "v.belyaev@proton.me",
+      "phone": "+7-903-666-77-88",
+      "position": "Senior ML Engineer",
+      "experience_years": 8,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "Kubernetes",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "МГТУ им. Баумана, Математическое моделирование, 2015",
+      "languages": [],
+      "expected_salary": "350000 руб",
+      "about": "Строил LLM-приложения и RAG-системы для enterprise. Руководил командой из 4 ML-инженеров. Деплоил модели в production на Kubernetes. Английский C1."
+    },
+    {
+      "name": "Анастасия Федорова",
+      "email": "a.fedorova@gmail.com",
+      "phone": "+7-921-777-88-99",
+      "position": "Python Developer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git"
+      ],
+      "education": "СПбГУ, Компьютерные науки, 2020",
+      "languages": [],
+      "expected_salary": "180000 руб",
+      "about": "Разрабатываю REST API сервисы. ML не моя специализация, но интегрировала готовые модели через API. Понимаю базовые концепции машинного обучения."
+    },
+    {
+      "name": "Роман Степанов",
+      "email": "r.stepanov@email.com",
+      "phone": "+7-916-888-99-00",
+      "position": "Research Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "JAX",
+        "HuggingFace",
+        "Git",
+        "Docker"
+      ],
+      "education": "МФТИ, Физика и компьютерные науки, 2019",
+      "languages": [],
+      "expected_salary": "280000 руб",
+      "about": "Исследую и внедряю новые архитектуры нейросетей. Публиковал статьи по NLP. Работал с LLM: предобучение, файнтюнинг, RLHF. RAG строил для внутреннего поиска по документам."
+    },
+    {
+      "name": "Ксения Волкова",
+      "email": "k.volkova@yandex.ru",
+      "phone": "+7-903-999-00-11",
+      "position": "Data Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "Spark",
+        "Airflow",
+        "PostgreSQL",
+        "Kafka",
+        "Docker",
+        "Git",
+        "SQL"
+      ],
+      "education": "ИТМО, Информационные технологии, 2018",
+      "languages": [],
+      "expected_salary": "230000 руб",
+      "about": "Строю data pipeline и ETL-процессы. ML знаю на базовом уровне. С векторными базами не работала, но понимаю принципы хранения эмбеддингов."
+    },
+    {
+      "name": "Илья Смирнов",
+      "email": "i.smirnov@mail.ru",
+      "phone": "+7-921-000-11-22",
+      "position": "Full Stack Developer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "Django",
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "РУДН, Программная инженерия, 2017",
+      "languages": [],
+      "expected_salary": "260000 руб",
+      "about": "Разрабатываю полный стек веб-приложений. ML не специализация, но читал про LLM и RAG. Интегрировал OpenAI API в продуктовые сервисы."
+    },
+    {
+      "name": "Светлана Громова",
+      "email": "s.gromova@gmail.com",
+      "phone": "+7-916-102-22-02",
+      "position": "Data Scientist",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "pandas",
+        "numpy",
+        "SQL",
+        "Tableau",
+        "Git"
+      ],
+      "education": "ВШЭ, Экономика и статистика, 2020",
+      "languages": [],
+      "expected_salary": "170000 руб",
+      "about": "Строю аналитические модели для бизнеса. LLM и RAG не изучала, но активно интересуюсь направлением."
+    },
+    {
+      "name": "Константин Лазарев",
+      "email": "k.lazarev@proton.me",
+      "phone": "+7-903-103-33-03",
+      "position": "Senior Python Developer",
+      "experience_years": 7,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Django",
+        "PostgreSQL",
+        "Redis",
+        "Kafka",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГТУ, Программная инженерия, 2016",
+      "languages": [],
+      "expected_salary": "310000 руб",
+      "about": "Архитектор backend-систем. Интегрировал ML-модели через API в production. Понимаю принципы работы векторного поиска."
+    },
+    {
+      "name": "Юлия Баранова",
+      "email": "j.baranova@email.com",
+      "phone": "+7-921-104-44-04",
+      "position": "NLP Researcher",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "FAISS",
+        "LangChain",
+        "Git",
+        "Docker"
+      ],
+      "education": "МФТИ, Компьютерная лингвистика, 2019",
+      "languages": [],
+      "expected_salary": "240000 руб",
+      "about": "Исследую языковые модели. Файнтюнила BERT и GPT-подобные модели. Строила RAG-системы для поиска по научным статьям. Английский C1."
+    },
+    {
+      "name": "Максим Куликов",
+      "email": "m.kulikov@mail.ru",
+      "phone": "+7-926-105-55-05",
+      "position": "Junior Data Scientist",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "pandas",
+        "numpy",
+        "Git"
+      ],
+      "education": "СПбГУ, Прикладная математика, 2023",
+      "languages": [],
+      "expected_salary": "80000 руб",
+      "about": "Выпускник. Делал учебные проекты по классификации и регрессии. Хочу развиваться в ML. Быстро обучаюсь."
+    },
+    {
+      "name": "Ирина Тихонова",
+      "email": "i.tikhonova@yandex.ru",
+      "phone": "+7-903-106-66-06",
+      "position": "ML Engineer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "Kubernetes",
+        "FastAPI",
+        "Git"
+      ],
+      "education": "ИТМО, Искусственный интеллект, 2017",
+      "languages": [],
+      "expected_salary": "300000 руб",
+      "about": "Руководила разработкой LLM-приложений. Строила RAG-системы для enterprise-клиентов. Деплоила модели в Kubernetes. Английский B2."
+    },
+    {
+      "name": "Денис Фролов",
+      "email": "d.frolov@gmail.com",
+      "phone": "+7-916-107-77-07",
+      "position": "Backend Developer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git"
+      ],
+      "education": "РУДН, Информатика, 2019",
+      "languages": [],
+      "expected_salary": "200000 руб",
+      "about": "Разрабатываю высоконагруженные API. ML не специализация, но читал про векторные базы и эмбеддинги. Готов изучать."
+    },
+    {
+      "name": "Валерия Крылова",
+      "email": "v.krylova@email.com",
+      "phone": "+7-999-108-88-08",
+      "position": "Computer Vision Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "OpenCV",
+        "scikit-learn",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Физика, 2020",
+      "languages": [],
+      "expected_salary": "210000 руб",
+      "about": "Специализируюсь на компьютерном зрении. NLP знаю базово. Работала с трансформерами для задач детекции."
+    },
+    {
+      "name": "Артём Соболев",
+      "email": "a.sobolev@proton.me",
+      "phone": "+7-921-109-99-09",
+      "position": "MLOps Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "MLflow",
+        "Airflow",
+        "Git",
+        "PostgreSQL",
+        "FastAPI"
+      ],
+      "education": "МГТУ, Автоматизация, 2018",
+      "languages": [],
+      "expected_salary": "280000 руб",
+      "about": "Строю инфраструктуру для ML-моделей. Настраиваю пайплайны обучения и деплоя. Знаком с RAG-архитектурой и векторными базами."
+    },
+    {
+      "name": "Полина Захарова",
+      "email": "p.zakharova@mail.ru",
+      "phone": "+7-926-110-10-10",
+      "position": "Python Developer",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "HTML",
+        "CSS",
+        "Git"
+      ],
+      "education": "ВШЭ, Программирование, 2021",
+      "languages": [],
+      "expected_salary": "130000 руб",
+      "about": "Разрабатываю веб-приложения. ML не изучала. Интересуюсь AI-продуктами."
+    },
+    {
+      "name": "Григорий Панов",
+      "email": "g.panov@email.com",
+      "phone": "+7-903-111-11-11",
+      "position": "Senior ML Engineer",
+      "experience_years": 9,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "Kubernetes",
+        "Git",
+        "FastAPI",
+        "MLflow"
+      ],
+      "education": "МФТИ, Математика, 2014",
+      "languages": [],
+      "expected_salary": "400000 руб",
+      "about": "Эксперт в LLM и RAG. Строил production-системы для Fortune 500. Руководил командами до 8 человек. Английский C2."
+    },
+    {
+      "name": "Алина Попова",
+      "email": "a.popova@gmail.com",
+      "phone": "+7-916-112-12-12",
+      "position": "Data Analyst",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "SQL",
+        "pandas",
+        "Tableau",
+        "Power BI",
+        "Excel",
+        "Git"
+      ],
+      "education": "МГУ, Социология и статистика, 2020",
+      "languages": [],
+      "expected_salary": "140000 руб",
+      "about": "Анализирую данные для бизнеса. ML знаю поверхностно. Python использую для обработки данных, не для разработки моделей."
+    },
+    {
+      "name": "Никита Егоров",
+      "email": "n.egorov@yandex.ru",
+      "phone": "+7-999-113-13-13",
+      "position": "ML Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "Docker",
+        "Git",
+        "scikit-learn"
+      ],
+      "education": "Иннополис, Data Science, 2020",
+      "languages": [],
+      "expected_salary": "200000 руб",
+      "about": "Разрабатываю модели классификации и генерации текста. Знаком с LLM. RAG изучаю самостоятельно."
+    },
+    {
+      "name": "Вероника Макарова",
+      "email": "v.makarova@email.com",
+      "phone": "+7-921-114-14-14",
+      "position": "Research Scientist",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "JAX",
+        "HuggingFace",
+        "FAISS",
+        "LangChain",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Компьютерные науки, 2017",
+      "languages": [],
+      "expected_salary": "320000 руб",
+      "about": "Публикую исследования по NLP. Разрабатываю новые подходы к обучению LLM. Строила RAG для поиска по медицинским документам. Английский C1."
+    },
+    {
+      "name": "Евгений Медведев",
+      "email": "e.medvedev@proton.me",
+      "phone": "+7-926-115-15-15",
+      "position": "DevOps / MLOps",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "Terraform",
+        "Ansible",
+        "Git",
+        "MLflow",
+        "Airflow"
+      ],
+      "education": "ИТМО, Системное администрирование, 2017",
+      "languages": [],
+      "expected_salary": "290000 руб",
+      "about": "Строю CI/CD для ML-проектов. Настраиваю деплой моделей. Python знаю хорошо, но ML-модели сам не строю."
+    },
+    {
+      "name": "Татьяна Коновалова",
+      "email": "t.konovalova@mail.ru",
+      "phone": "+7-903-116-16-16",
+      "position": "Junior ML Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "pandas",
+        "HuggingFace",
+        "Git"
+      ],
+      "education": "МГТУ, Информатика, 2024",
+      "languages": [],
+      "expected_salary": "95000 руб",
+      "about": "Выпускница. Дипломный проект - файнтюнинг BERT для классификации отзывов. Знакома с основами RAG. Хочу расти в NLP."
+    },
+    {
+      "name": "Станислав Ершов",
+      "email": "s.ershov@gmail.com",
+      "phone": "+7-916-117-17-17",
+      "position": "Python Developer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "SQLAlchemy",
+        "PostgreSQL",
+        "Docker",
+        "Git",
+        "Redis"
+      ],
+      "education": "СПбГУ, Математика, 2018",
+      "languages": [],
+      "expected_salary": "240000 руб",
+      "about": "Разрабатываю backend для SaaS-продуктов. Интегрировал OpenAI и Anthropic API. Понимаю как работают LLM на уровне пользователя."
+    },
+    {
+      "name": "Марина Белова",
+      "email": "m.belova@yandex.ru",
+      "phone": "+7-999-118-18-18",
+      "position": "ML Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Data Science, 2019",
+      "languages": [],
+      "expected_salary": "250000 руб",
+      "about": "Строю RAG-системы и чат-боты на основе LLM. Деплоила модели через FastAPI. Английский B1."
+    },
+    {
+      "name": "Кирилл Воронов",
+      "email": "k.voronov@email.com",
+      "phone": "+7-921-119-19-19",
+      "position": "Backend Developer",
+      "experience_years": 8,
+      "skills": [
+        "Python",
+        "Go",
+        "FastAPI",
+        "Kafka",
+        "PostgreSQL",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "МГТУ, Программирование, 2015",
+      "languages": [],
+      "expected_salary": "350000 руб",
+      "about": "Строю распределённые системы. ML на базовом уровне. Интегрировал векторный поиск через готовые библиотеки."
+    },
+    {
+      "name": "Диана Семёнова",
+      "email": "d.semenova@proton.me",
+      "phone": "+7-926-120-20-20",
+      "position": "NLP Engineer",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "Git",
+        "Docker"
+      ],
+      "education": "МФТИ, Лингвистика, 2022",
+      "languages": [],
+      "expected_salary": "160000 руб",
+      "about": "Работаю с текстовыми данными. Строила классификаторы и NER-модели. Знакома с LLM на уровне файнтюнинга."
+    },
+    {
+      "name": "Фёдор Тарасов",
+      "email": "f.tarasov@mail.ru",
+      "phone": "+7-903-121-21-21",
+      "position": "Data Scientist",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "XGBoost",
+        "CatBoost",
+        "pandas",
+        "SQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Статистика, 2018",
+      "languages": [],
+      "expected_salary": "250000 руб",
+      "about": "Строю предсказательные модели. LLM и RAG не работал, но понимаю принципы. Готов переключиться на NLP-направление."
+    },
+    {
+      "name": "Елена Крюкова",
+      "email": "e.kryukova@gmail.com",
+      "phone": "+7-916-122-22-22",
+      "position": "ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, Искусственный интеллект, 2018",
+      "languages": [],
+      "expected_salary": "270000 руб",
+      "about": "Специализируюсь на LLM и RAG-системах. Строила корпоративные чат-боты. Деплоила через FastAPI и Docker. Английский B2."
+    },
+    {
+      "name": "Леонид Архипов",
+      "email": "l.arkhipov@yandex.ru",
+      "phone": "+7-999-123-23-23",
+      "position": "Junior Python Developer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "Flask",
+        "SQLite",
+        "Git",
+        "HTML"
+      ],
+      "education": "РГГУ, Информационные технологии, 2024",
+      "languages": [],
+      "expected_salary": "70000 руб",
+      "about": "Только начинаю карьеру. Делал небольшие проекты на Flask. ML не изучал. Хочу развиваться."
+    },
+    {
+      "name": "Надежда Сорокина",
+      "email": "n.sorokina@email.com",
+      "phone": "+7-921-124-24-24",
+      "position": "ML Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "HuggingFace",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Прикладная математика, 2021",
+      "languages": [],
+      "expected_salary": "190000 руб",
+      "about": "Разрабатываю модели для NLP-задач. Работала с трансформерами. RAG изучаю, есть небольшой pet-project."
+    },
+    {
+      "name": "Вадим Лобанов",
+      "email": "v.lobanov@proton.me",
+      "phone": "+7-926-125-25-25",
+      "position": "Senior Data Scientist",
+      "experience_years": 7,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "scikit-learn",
+        "SQL",
+        "Docker",
+        "Git",
+        "MLflow"
+      ],
+      "education": "МГУ, Математика, 2016",
+      "languages": [],
+      "expected_salary": "330000 руб",
+      "about": "Веду полный цикл ML-проектов. Работал с NLP, рекомендательными системами. Знаком с LLM и векторным поиском."
+    },
+    {
+      "name": "Карина Михайлова",
+      "email": "k.mikhailova@mail.ru",
+      "phone": "+7-903-126-26-26",
+      "position": "Python Developer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "Django",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "СПбГУ, Компьютерные науки, 2021",
+      "languages": [],
+      "expected_salary": "170000 руб",
+      "about": "Разрабатываю REST API. ML не моя тема, но интегрировала сторонние AI-сервисы в продукт."
+    },
+    {
+      "name": "Захар Попов",
+      "email": "z.popov@gmail.com",
+      "phone": "+7-916-127-27-27",
+      "position": "ML Researcher",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "JAX",
+        "HuggingFace",
+        "FAISS",
+        "Git",
+        "Docker",
+        "LaTeX"
+      ],
+      "education": "МФТИ, Физика, 2019",
+      "languages": [],
+      "expected_salary": "260000 руб",
+      "about": "Исследую методы обучения LLM. Публиковал статьи на arxiv. Строил RAG для академического поиска. Английский C1."
+    },
+    {
+      "name": "Оксана Власова",
+      "email": "o.vlasova@yandex.ru",
+      "phone": "+7-999-128-28-28",
+      "position": "Data Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "Spark",
+        "Airflow",
+        "PostgreSQL",
+        "Kafka",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, Информационные системы, 2019",
+      "languages": [],
+      "expected_salary": "220000 руб",
+      "about": "Строю data pipeline. ML знаю базово. Эмбеддинги и векторные базы изучала теоретически."
+    },
+    {
+      "name": "Антон Кузнецов",
+      "email": "a.kuznetsov@email.com",
+      "phone": "+7-921-129-29-29",
+      "position": "ML Engineer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "Docker",
+        "FastAPI",
+        "Git"
+      ],
+      "education": "МГТУ, Автоматика, 2017",
+      "languages": [],
+      "expected_salary": "290000 руб",
+      "about": "Строю LLM-приложения и RAG-системы. Деплоил модели в production. Опыт с векторными базами FAISS и ChromaDB. Английский B2."
+    },
+    {
+      "name": "Жанна Устинова",
+      "email": "zh.ustinova@proton.me",
+      "phone": "+7-926-130-30-30",
+      "position": "Junior NLP Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "HuggingFace",
+        "spaCy",
+        "Git",
+        "pandas"
+      ],
+      "education": "МГУ, Лингвистика, 2024",
+      "languages": [],
+      "expected_salary": "90000 руб",
+      "about": "Выпускница лингвистического факультета с уклоном в NLP. Дипломный проект - анализ тональности. Хочу развиваться в сторону LLM."
+    },
+    {
+      "name": "Михаил Петров",
+      "email": "m.petrov@mail.ru",
+      "phone": "+7-903-131-31-31",
+      "position": "Senior Backend Developer",
+      "experience_years": 8,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Django",
+        "PostgreSQL",
+        "Redis",
+        "Kafka",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "РУДН, Программирование, 2015",
+      "languages": [],
+      "expected_salary": "340000 руб",
+      "about": "Строю высоконагруженные системы. Интегрировал LLM через API в продукт. Понимаю векторный поиск на уровне архитектуры."
+    },
+    {
+      "name": "Дарья Степанова",
+      "email": "d.stepanova@gmail.com",
+      "phone": "+7-916-132-32-32",
+      "position": "ML Engineer",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "HuggingFace",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Data Science, 2022",
+      "languages": [],
+      "expected_salary": "150000 руб",
+      "about": "Разрабатываю ML-модели. Работала с текстами: классификация, суммаризация. RAG изучаю активно."
+    },
+    {
+      "name": "Руслан Коваль",
+      "email": "r.koval@yandex.ru",
+      "phone": "+7-999-133-33-33",
+      "position": "MLOps / Platform Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "MLflow",
+        "DVC",
+        "Airflow",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "ИТМО, Системное программирование, 2018",
+      "languages": [],
+      "expected_salary": "270000 руб",
+      "about": "Строю ML-платформы и инфраструктуру. Настраиваю деплой LLM-моделей. Знаком с RAG-архитектурой и векторными базами."
+    },
+    {
+      "name": "Алёна Громова",
+      "email": "al.gromova@email.com",
+      "phone": "+7-921-134-34-34",
+      "position": "Data Scientist",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "CatBoost",
+        "pandas",
+        "SQL",
+        "Git",
+        "Docker"
+      ],
+      "education": "МГУ, Математика, 2019",
+      "languages": [],
+      "expected_salary": "220000 руб",
+      "about": "Строю модели для бизнеса. NLP знаю базово. LLM и RAG интересуют, изучаю в свободное время."
+    },
+    {
+      "name": "Игорь Харламов",
+      "email": "i.kharlamov@proton.me",
+      "phone": "+7-926-135-35-35",
+      "position": "ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "FAISS",
+        "LangChain",
+        "Docker",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "МФТИ, Прикладная физика, 2018",
+      "languages": [],
+      "expected_salary": "275000 руб",
+      "about": "Разрабатываю RAG-системы для корпоративного поиска. Файнтюнил LLM на доменных данных. Английский B2."
+    },
+    {
+      "name": "Людмила Зотова",
+      "email": "l.zotova@mail.ru",
+      "phone": "+7-903-136-36-36",
+      "position": "Python Developer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "SQLAlchemy",
+        "PostgreSQL",
+        "Docker",
+        "Git",
+        "Celery"
+      ],
+      "education": "СПбГУ, Математика, 2017",
+      "languages": [],
+      "expected_salary": "260000 руб",
+      "about": "Разрабатываю сложные backend-системы. ML не моя область, но активно изучаю LLM и их применение в backend."
+    },
+    {
+      "name": "Владислав Рябов",
+      "email": "v.ryabov@gmail.com",
+      "phone": "+7-916-137-37-37",
+      "position": "Junior ML Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "scikit-learn",
+        "Git"
+      ],
+      "education": "Иннополис, AI, 2024",
+      "languages": [],
+      "expected_salary": "100000 руб",
+      "about": "Выпускник. Проект - RAG-система для поиска по документам компании. Базово знаком с LangChain и FAISS. Хочу расти."
+    },
+    {
+      "name": "Галина Фёдорова",
+      "email": "g.fedorova@yandex.ru",
+      "phone": "+7-999-138-38-38",
+      "position": "Data Scientist",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "pandas",
+        "SQL",
+        "Power BI",
+        "Git"
+      ],
+      "education": "МГУ, Статистика, 2020",
+      "languages": [],
+      "expected_salary": "180000 руб",
+      "about": "Аналитик с уклоном в ML. NLP не специализация. Python использую для анализа данных."
+    },
+    {
+      "name": "Тарас Нечаев",
+      "email": "t.nechaev@email.com",
+      "phone": "+7-921-139-39-39",
+      "position": "Senior ML Engineer",
+      "experience_years": 7,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "МГТУ, Математическое моделирование, 2016",
+      "languages": [],
+      "expected_salary": "360000 руб",
+      "about": "Строю enterprise LLM-решения. Руководил командой ML-инженеров. Деплоил RAG-системы в Kubernetes. Английский C1."
+    },
+    {
+      "name": "Элина Романова",
+      "email": "el.romanova@proton.me",
+      "phone": "+7-926-140-40-40",
+      "position": "NLP Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "FAISS",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Компьютерная лингвистика, 2021",
+      "languages": [],
+      "expected_salary": "200000 руб",
+      "about": "Работаю с языковыми моделями. Строила системы извлечения информации и суммаризации. Знакома с RAG."
+    },
+    {
+      "name": "Иван Соловьёв",
+      "email": "i.solovev@mail.ru",
+      "phone": "+7-903-141-41-41",
+      "position": "Backend Developer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Git"
+      ],
+      "education": "РУДН, Информатика, 2019",
+      "languages": [],
+      "expected_salary": "190000 руб",
+      "about": "Разрабатываю веб-приложения. ML не специализация. Интегрировал готовые AI-API в продукты."
+    },
+    {
+      "name": "Милена Ковалёва",
+      "email": "m.kovaleva@gmail.com",
+      "phone": "+7-916-142-42-42",
+      "position": "ML Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "Docker",
+        "FastAPI",
+        "Git"
+      ],
+      "education": "МФТИ, Data Science, 2019",
+      "languages": [],
+      "expected_salary": "245000 руб",
+      "about": "Разрабатываю LLM-приложения. Строила RAG для юридических документов. Деплоила через FastAPI. Английский B1."
+    },
+    {
+      "name": "Глеб Матвеев",
+      "email": "g.matveev@yandex.ru",
+      "phone": "+7-999-143-43-43",
+      "position": "DevOps Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "Terraform",
+        "Git",
+        "Jenkins",
+        "Prometheus"
+      ],
+      "education": "ИТМО, Системное администрирование, 2018",
+      "languages": [],
+      "expected_salary": "280000 руб",
+      "about": "Настраиваю инфраструктуру для ML-команд. Python знаю хорошо, ML-модели не разрабатываю."
+    },
+    {
+      "name": "Снежана Блинова",
+      "email": "sn.blinova@email.com",
+      "phone": "+7-921-144-44-44",
+      "position": "ML Engineer",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "HuggingFace",
+        "Git",
+        "Docker"
+      ],
+      "education": "МГУ, Математика, 2022",
+      "languages": [],
+      "expected_salary": "155000 руб",
+      "about": "Работаю с NLP-моделями. Файнтюнила небольшие LLM. RAG изучаю на практике."
+    },
+    {
+      "name": "Александр Горин",
+      "email": "al.gorin@proton.me",
+      "phone": "+7-926-145-45-45",
+      "position": "Senior Python Developer",
+      "experience_years": 9,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Django",
+        "PostgreSQL",
+        "Redis",
+        "Kafka",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "МГТУ, Информатика, 2014",
+      "languages": [],
+      "expected_salary": "380000 руб",
+      "about": "Архитектор распределённых систем. Интегрировал LLM и RAG в production. Знаю как деплоить ML-модели правильно."
+    },
+    {
+      "name": "Арина Соболева",
+      "email": "ar.soboleva@mail.ru",
+      "phone": "+7-903-146-46-46",
+      "position": "Data Scientist",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "pandas",
+        "SQL",
+        "Git"
+      ],
+      "education": "ВШЭ, Экономика, 2022",
+      "languages": [],
+      "expected_salary": "130000 руб",
+      "about": "Строю аналитические модели. ML знаю на среднем уровне. NLP и LLM не изучала."
+    },
+    {
+      "name": "Платон Новиков",
+      "email": "pl.novikov@gmail.com",
+      "phone": "+7-916-147-47-47",
+      "position": "ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "FAISS",
+        "LangChain",
+        "FastAPI",
+        "Docker",
+        "Git"
+      ],
+      "education": "МФТИ, Физтех, 2018",
+      "languages": [],
+      "expected_salary": "265000 руб",
+      "about": "Строю RAG-пайплайны и LLM-приложения. Опыт с векторными базами. Деплоил модели в production. Английский B2."
+    },
+    {
+      "name": "Регина Лукьянова",
+      "email": "r.lukyanova@yandex.ru",
+      "phone": "+7-999-148-48-48",
+      "position": "Junior Python Developer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "Flask",
+        "Git",
+        "HTML",
+        "CSS",
+        "SQLite"
+      ],
+      "education": "РГГУ, Программирование, 2024",
+      "languages": [],
+      "expected_salary": "75000 руб",
+      "about": "Начинающий разработчик. Делала учебные проекты. ML не изучала. Хочу развиваться в backend."
+    },
+    {
+      "name": "Олег Быков",
+      "email": "o.bykov@email.com",
+      "phone": "+7-921-149-49-49",
+      "position": "ML Engineer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "МГУ, Вычислительная математика, 2017",
+      "languages": [],
+      "expected_salary": "295000 руб",
+      "about": "Разрабатываю NLP-системы и LLM-приложения. Строил RAG для корпоративных клиентов. Английский B2."
+    },
+    {
+      "name": "Зоя Яковлева",
+      "email": "z.yakovleva@proton.me",
+      "phone": "+7-926-150-50-50",
+      "position": "Data Analyst",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "SQL",
+        "pandas",
+        "Tableau",
+        "Power BI",
+        "Excel",
+        "Git"
+      ],
+      "education": "МГУ, Статистика, 2019",
+      "languages": [],
+      "expected_salary": "160000 руб",
+      "about": "Аналитик данных. ML знаю базово. Python для обработки данных, не для моделирования."
+    },
+    {
+      "name": "Степан Крылов",
+      "email": "st.krylov@mail.ru",
+      "phone": "+7-903-151-51-51",
+      "position": "ML Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "scikit-learn",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, AI, 2021",
+      "languages": [],
+      "expected_salary": "195000 руб",
+      "about": "Работаю с языковыми моделями. Строил классификаторы текста. Изучаю RAG и LangChain."
+    },
+    {
+      "name": "Лариса Быкова",
+      "email": "l.bykova@gmail.com",
+      "phone": "+7-916-152-52-52",
+      "position": "Backend Developer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Git"
+      ],
+      "education": "СПбГУ, Информатика, 2018",
+      "languages": [],
+      "expected_salary": "230000 руб",
+      "about": "Разрабатываю API для SaaS. ML не специализация. Интегрировала OpenAI и YandexGPT в продукты."
+    },
+    {
+      "name": "Эдуард Воронцов",
+      "email": "ed.vorontsov@yandex.ru",
+      "phone": "+7-999-153-53-53",
+      "position": "Senior ML Engineer",
+      "experience_years": 8,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Kubernetes",
+        "Git",
+        "MLflow"
+      ],
+      "education": "МФТИ, Математика, 2015",
+      "languages": [],
+      "expected_salary": "370000 руб",
+      "about": "Эксперт в NLP и LLM. Строил RAG-системы для банков и ритейла. Руководил ML-командой. Английский C1."
+    },
+    {
+      "name": "Камилла Орехова",
+      "email": "k.orekhova@email.com",
+      "phone": "+7-921-154-54-54",
+      "position": "NLP Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Лингвистика, 2021",
+      "languages": [],
+      "expected_salary": "185000 руб",
+      "about": "Работаю с текстовыми моделями. Строила NER и классификаторы. Знакома с LLM, изучаю RAG."
+    },
+    {
+      "name": "Богдан Мельник",
+      "email": "b.melnik@proton.me",
+      "phone": "+7-926-155-55-55",
+      "position": "Python Developer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "Django",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "Celery",
+        "Git"
+      ],
+      "education": "МГТУ, Программирование, 2019",
+      "languages": [],
+      "expected_salary": "210000 руб",
+      "about": "Backend-разработчик. ML не специализация, но интегрировал ML-сервисы через REST API."
+    },
+    {
+      "name": "Яна Симонова",
+      "email": "ya.simonova@mail.ru",
+      "phone": "+7-903-156-56-56",
+      "position": "ML Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Компьютерные науки, 2019",
+      "languages": [],
+      "expected_salary": "240000 руб",
+      "about": "Разрабатываю RAG-системы и LLM-приложения. Файнтюнила модели на русскоязычных данных. Английский B1."
+    },
+    {
+      "name": "Леонтий Соколов",
+      "email": "l.sokolov@gmail.com",
+      "phone": "+7-916-157-57-57",
+      "position": "Data Scientist",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "XGBoost",
+        "pandas",
+        "SQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Механика, 2017",
+      "languages": [],
+      "expected_salary": "280000 руб",
+      "about": "Строю ML-модели для финтеха. Работал с NLP базово. Векторный поиск изучал теоретически."
+    },
+    {
+      "name": "Евдокия Панфилова",
+      "email": "ev.panfilova@yandex.ru",
+      "phone": "+7-999-158-58-58",
+      "position": "Junior ML Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "Git",
+        "pandas"
+      ],
+      "education": "Иннополис, Data Science, 2024",
+      "languages": [],
+      "expected_salary": "85000 руб",
+      "about": "Выпускница. Проект - файнтюнинг малой языковой модели. Хочу развиваться в NLP и LLM."
+    },
+    {
+      "name": "Пётр Гончаров",
+      "email": "p.goncharov@email.com",
+      "phone": "+7-921-159-59-59",
+      "position": "ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, AI, 2018",
+      "languages": [],
+      "expected_salary": "270000 руб",
+      "about": "Строю LLM-приложения и RAG. Деплоил через FastAPI и Docker. Опыт с ChromaDB и FAISS. Английский B2."
+    },
+    {
+      "name": "Нина Осипова",
+      "email": "n.osipova@proton.me",
+      "phone": "+7-926-160-60-60",
+      "position": "Backend Developer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "СПбГУ, Математика, 2021",
+      "languages": [],
+      "expected_salary": "175000 руб",
+      "about": "Разрабатываю REST API. ML не изучала. Интересуюсь AI-направлением."
+    },
+    {
+      "name": "Марат Хасанов",
+      "email": "m.khasanov@mail.ru",
+      "phone": "+7-903-161-61-61",
+      "position": "ML Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "scikit-learn",
+        "Docker",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "Казанский федеральный университет, Математика, 2019",
+      "languages": [],
+      "expected_salary": "230000 руб",
+      "about": "Работаю с NLP-задачами. Строил системы суммаризации текста. Знаком с RAG-архитектурой. Английский B1."
+    },
+    {
+      "name": "Виолетта Громова",
+      "email": "vi.gromova@gmail.com",
+      "phone": "+7-916-162-62-62",
+      "position": "Research Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "JAX",
+        "HuggingFace",
+        "FAISS",
+        "Git",
+        "Docker"
+      ],
+      "education": "МФТИ, Физика, 2018",
+      "languages": [],
+      "expected_salary": "290000 руб",
+      "about": "Исследую архитектуры трансформеров. Строила RAG для научного поиска. Публиковала на arxiv. Английский C1."
+    },
+    {
+      "name": "Захар Кириллов",
+      "email": "z.kirillov@yandex.ru",
+      "phone": "+7-999-163-63-63",
+      "position": "Junior Python Developer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "Flask",
+        "Git",
+        "HTML",
+        "CSS"
+      ],
+      "education": "РУДН, Информатика, 2024",
+      "languages": [],
+      "expected_salary": "65000 руб",
+      "about": "Начинающий разработчик. ML не изучал. Хочу развиваться в backend."
+    },
+    {
+      "name": "Ангелина Мороз",
+      "email": "ang.moroz@email.com",
+      "phone": "+7-921-164-64-64",
+      "position": "ML Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Data Science, 2021",
+      "languages": [],
+      "expected_salary": "205000 руб",
+      "about": "Строю LLM-приложения. Знакома с RAG. Деплоила через FastAPI. Английский B1."
+    },
+    {
+      "name": "Фёдор Игнатов",
+      "email": "f.ignatov@proton.me",
+      "phone": "+7-926-165-65-65",
+      "position": "Senior Backend Developer",
+      "experience_years": 7,
+      "skills": [
+        "Python",
+        "Go",
+        "FastAPI",
+        "Kafka",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "МГТУ, Программирование, 2016",
+      "languages": [],
+      "expected_salary": "330000 руб",
+      "about": "Строю высоконагруженные системы. ML знаю на уровне интеграции API. Понимаю векторный поиск."
+    },
+    {
+      "name": "Ульяна Беляева",
+      "email": "ul.belyaeva@mail.ru",
+      "phone": "+7-903-166-66-66",
+      "position": "NLP Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "FAISS",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Лингвистика, 2019",
+      "languages": [],
+      "expected_salary": "220000 руб",
+      "about": "Специализируюсь на обработке русскоязычных текстов. Строила NER, классификаторы. Работала с LLM и RAG."
+    },
+    {
+      "name": "Виталий Громов",
+      "email": "vi.gromov@gmail.com",
+      "phone": "+7-916-167-67-67",
+      "position": "Data Scientist",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "CatBoost",
+        "pandas",
+        "SQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Статистика, 2019",
+      "languages": [],
+      "expected_salary": "215000 руб",
+      "about": "Строю модели для ритейла. NLP знаю базово. Готов развиваться в сторону LLM."
+    },
+    {
+      "name": "Ева Соловьёва",
+      "email": "ev.soloveva@yandex.ru",
+      "phone": "+7-999-168-68-68",
+      "position": "ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, AI, 2018",
+      "languages": [],
+      "expected_salary": "260000 руб",
+      "about": "Строю RAG-системы для enterprise. Деплоила LLM в production. Файнтюнила модели. Английский B2."
+    },
+    {
+      "name": "Савелий Лазарев",
+      "email": "sav.lazarev@email.com",
+      "phone": "+7-921-169-69-69",
+      "position": "Junior ML Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "HuggingFace",
+        "Git"
+      ],
+      "education": "Иннополис, AI, 2024",
+      "languages": [],
+      "expected_salary": "90000 руб",
+      "about": "Выпускник. Проект по суммаризации текста с LLM. Хочу развиваться в NLP."
+    },
+    {
+      "name": "Тамара Антонова",
+      "email": "t.antonova@proton.me",
+      "phone": "+7-926-170-70-70",
+      "position": "Data Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "Spark",
+        "Airflow",
+        "Kafka",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, Информационные системы, 2018",
+      "languages": [],
+      "expected_salary": "240000 руб",
+      "about": "Строю ETL-пайплайны. ML знаю теоретически. Векторные базы не использовала."
+    },
+    {
+      "name": "Кузьма Воронин",
+      "email": "k.voronin@mail.ru",
+      "phone": "+7-903-171-71-71",
+      "position": "ML Engineer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Математика, 2017",
+      "languages": [],
+      "expected_salary": "285000 руб",
+      "about": "Разрабатываю LLM-продукты. Строил RAG для финтех-компании. Деплоил в production. Английский B2."
+    },
+    {
+      "name": "Жасмин Ахметова",
+      "email": "zh.akhmetova@gmail.com",
+      "phone": "+7-916-172-72-72",
+      "position": "Junior NLP Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "HuggingFace",
+        "spaCy",
+        "Git",
+        "pandas"
+      ],
+      "education": "Казанский федеральный университет, Лингвистика, 2024",
+      "languages": [],
+      "expected_salary": "80000 руб",
+      "about": "Выпускница. Увлекаюсь NLP. Хочу развиваться в сторону LLM и RAG."
+    },
+    {
+      "name": "Леонид Борисов",
+      "email": "le.borisov@yandex.ru",
+      "phone": "+7-999-173-73-73",
+      "position": "Senior ML Engineer",
+      "experience_years": 9,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Kubernetes",
+        "MLflow",
+        "Git"
+      ],
+      "education": "МФТИ, Математика, 2014",
+      "languages": [],
+      "expected_salary": "420000 руб",
+      "about": "Эксперт в LLM и RAG-системах. Строил AI-продукты для крупных компаний. Руководил командой 10 человек. Английский C2."
+    },
+    {
+      "name": "Полина Артёмова",
+      "email": "pol.artemova@email.com",
+      "phone": "+7-921-174-74-74",
+      "position": "Python Developer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "СПбГУ, Информатика, 2021",
+      "languages": [],
+      "expected_salary": "165000 руб",
+      "about": "Backend-разработчик. ML не специализация. Интегрировала Whisper и другие open-source модели в продукт."
+    },
+    {
+      "name": "Кирилл Носов",
+      "email": "ki.nosov@proton.me",
+      "phone": "+7-926-175-75-75",
+      "position": "ML Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "FastAPI",
+        "Git"
+      ],
+      "education": "МГТУ, AI, 2019",
+      "languages": [],
+      "expected_salary": "245000 руб",
+      "about": "Строю RAG-системы. Файнтюнил LLM. Деплоил через FastAPI. Английский B1."
+    },
+    {
+      "name": "Валентина Куликова",
+      "email": "val.kulikova@mail.ru",
+      "phone": "+7-903-176-76-76",
+      "position": "Data Scientist",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "PyTorch",
+        "pandas",
+        "SQL",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Математика, 2018",
+      "languages": [],
+      "expected_salary": "245000 руб",
+      "about": "Строю ML-модели. Работала с NLP базово. Знакома с трансформерами. Готова переключиться на LLM-направление."
+    },
+    {
+      "name": "Давид Лебедев",
+      "email": "dav.lebedev@gmail.com",
+      "phone": "+7-916-177-77-77",
+      "position": "MLOps Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "MLflow",
+        "Airflow",
+        "Git",
+        "FastAPI",
+        "PostgreSQL"
+      ],
+      "education": "ИТМО, Системное программирование, 2019",
+      "languages": [],
+      "expected_salary": "255000 руб",
+      "about": "Строю инфраструктуру для ML. Деплоил LLM-модели. Настраивал векторные базы для RAG-систем."
+    },
+    {
+      "name": "Таисия Громова",
+      "email": "ta.gromova@yandex.ru",
+      "phone": "+7-999-178-78-78",
+      "position": "NLP Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "LangChain",
+        "Docker",
+        "Git"
+      ],
+      "education": "ВШЭ, Компьютерная лингвистика, 2021",
+      "languages": [],
+      "expected_salary": "195000 руб",
+      "about": "Работаю с LLM и NLP. Строила чат-боты на основе RAG. Файнтюнила модели для русского языка."
+    },
+    {
+      "name": "Арсений Колесников",
+      "email": "ar.kolesnikov@email.com",
+      "phone": "+7-921-179-79-79",
+      "position": "Backend Developer",
+      "experience_years": 6,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Django",
+        "PostgreSQL",
+        "Docker",
+        "Redis",
+        "Kafka",
+        "Git"
+      ],
+      "education": "МГТУ, Программирование, 2017",
+      "languages": [],
+      "expected_salary": "270000 руб",
+      "about": "Строю микросервисы. Интегрировал LLM через API. Понимаю принципы RAG на архитектурном уровне."
+    },
+    {
+      "name": "Лиля Назарова",
+      "email": "li.nazarova@proton.me",
+      "phone": "+7-926-180-80-80",
+      "position": "Junior ML Engineer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "scikit-learn",
+        "pandas",
+        "Git"
+      ],
+      "education": "МГУ, Математика, 2024",
+      "languages": [],
+      "expected_salary": "88000 руб",
+      "about": "Выпускница. Интересуюсь ML и NLP. Хочу развиваться в сторону LLM."
+    },
+    {
+      "name": "Геннадий Фомин",
+      "email": "gen.fomin@mail.ru",
+      "phone": "+7-903-181-81-81",
+      "position": "Senior Python Developer",
+      "experience_years": 10,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Django",
+        "PostgreSQL",
+        "Redis",
+        "Kafka",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "МФТИ, Информатика, 2013",
+      "languages": [],
+      "expected_salary": "400000 руб",
+      "about": "Ветеран backend-разработки. Интегрировал LLM и RAG-системы в enterprise-продукты. Знаю ML на уровне архитектора."
+    },
+    {
+      "name": "Соня Дмитриева",
+      "email": "son.dmitrieva@gmail.com",
+      "phone": "+7-916-182-82-82",
+      "position": "ML Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "FAISS",
+        "Docker",
+        "Git",
+        "FastAPI"
+      ],
+      "education": "ВШЭ, Data Science, 2021",
+      "languages": [],
+      "expected_salary": "200000 руб",
+      "about": "Строю ML-пайплайны. Работала с векторным поиском и RAG. Деплоила через FastAPI. Английский B1."
+    },
+    {
+      "name": "Роман Абрамов",
+      "email": "ro.abramov@yandex.ru",
+      "phone": "+7-999-183-83-83",
+      "position": "Data Scientist",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "PyTorch",
+        "pandas",
+        "SQL",
+        "Git",
+        "Docker"
+      ],
+      "education": "МГУ, Физика, 2019",
+      "languages": [],
+      "expected_salary": "220000 руб",
+      "about": "Строю предсказательные модели. NLP знаю средне. Работал с трансформерами для задач классификации."
+    },
+    {
+      "name": "Инга Краснова",
+      "email": "in.krasnova@email.com",
+      "phone": "+7-921-184-84-84",
+      "position": "ML Engineer",
+      "experience_years": 5,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "FastAPI",
+        "Git"
+      ],
+      "education": "МФТИ, Прикладная математика, 2018",
+      "languages": [],
+      "expected_salary": "265000 руб",
+      "about": "Специализируюсь на NLP и LLM. Строила RAG для медицины и юриспруденции. Английский B2."
+    },
+    {
+      "name": "Серафим Щербаков",
+      "email": "ser.shcherbakov@proton.me",
+      "phone": "+7-926-185-85-85",
+      "position": "Junior Backend Developer",
+      "experience_years": 1,
+      "skills": [
+        "Python",
+        "Flask",
+        "Git",
+        "PostgreSQL",
+        "HTML"
+      ],
+      "education": "РУДН, Программирование, 2024",
+      "languages": [],
+      "expected_salary": "70000 руб",
+      "about": "Начинающий разработчик. ML не изучал. Хочу развиваться в backend."
+    },
+    {
+      "name": "Агата Комарова",
+      "email": "ag.komarova@mail.ru",
+      "phone": "+7-903-186-86-86",
+      "position": "NLP Engineer",
+      "experience_years": 4,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "spaCy",
+        "LangChain",
+        "FAISS",
+        "Docker",
+        "Git"
+      ],
+      "education": "МГУ, Лингвистика, 2019",
+      "languages": [],
+      "expected_salary": "230000 руб",
+      "about": "Работаю с языковыми моделями. Строила RAG-системы. Файнтюнила LLM для русского языка. Английский B2."
+    },
+    {
+      "name": "Тихон Рыбаков",
+      "email": "ti.rybakov@gmail.com",
+      "phone": "+7-916-187-87-87",
+      "position": "ML Engineer",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "Docker",
+        "Git",
+        "scikit-learn"
+      ],
+      "education": "Иннополис, AI, 2021",
+      "languages": [],
+      "expected_salary": "190000 руб",
+      "about": "Работаю с NLP. Строил классификаторы и генеративные модели. RAG изучаю на практике."
+    },
+    {
+      "name": "Аглая Фирсова",
+      "email": "agl.firsova@yandex.ru",
+      "phone": "+7-999-188-88-88",
+      "position": "Data Scientist",
+      "experience_years": 3,
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "pandas",
+        "SQL",
+        "Git",
+        "Docker"
+      ],
+      "education": "ВШЭ, Математика, 2021",
+      "languages": [],
+      "expected_salary": "175000 руб",
+      "about": "Строю аналитические модели. NLP и LLM не изучала. Python знаю хорошо."
+    },
+    {
+      "name": "Всеволод Зубов",
+      "email": "vs.zubov@email.com",
+      "phone": "+7-921-189-89-89",
+      "position": "Senior ML Engineer",
+      "experience_years": 8,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "LangChain",
+        "FAISS",
+        "FastAPI",
+        "Docker",
+        "Kubernetes",
+        "Git"
+      ],
+      "education": "МФТИ, Математика, 2015",
+      "languages": [],
+      "expected_salary": "365000 руб",
+      "about": "Строю LLM-решения для enterprise. Руководил ML-командой. Деплоил RAG в Kubernetes. Английский C1."
+    },
+    {
+      "name": "Злата Морева",
+      "email": "zl.moreva@proton.me",
+      "phone": "+7-926-190-90-90",
+      "position": "ML Engineer",
+      "experience_years": 2,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "HuggingFace",
+        "Docker",
+        "Git"
+      ],
+      "education": "ИТМО, Data Science, 2022",
+      "languages": [],
+      "expected_salary": "145000 руб",
+      "about": "Работаю с языковыми моделями. Строила простые RAG-системы. Хочу развиваться в LLM-направлении."
+    }
+  ],
+  "resumes_count": 99
+}
