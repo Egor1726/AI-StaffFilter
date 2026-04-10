@@ -16,6 +16,7 @@ MODEL_OPTIONS = {
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 CHROMA_DB_PATH = os.getenv("CHROMA_DB_PATH", "./chroma_db")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "resumes")
+EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
 
 print(f"Конфигурация загружена:")
 print(f"  Модель: {MODEL_NAME}")

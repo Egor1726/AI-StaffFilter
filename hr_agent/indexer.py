@@ -1,6 +1,6 @@
 import requests
 import chromadb
-from config import OLLAMA_HOST, CHROMA_DB_PATH, COLLECTION_NAME
+from config import OLLAMA_HOST, EMBED_MODEL, CHROMA_DB_PATH, COLLECTION_NAME
 from txt_processor import process_files
 
 
@@ -15,13 +15,12 @@ def get_collection():
 # ── Эмбеддинги ─────────────────────────────────────────────
 
 def get_embedding(text: str) -> list[float]:
-    """Превращает текст в вектор через Ollama."""
     response = requests.post(
-        f"{OLLAMA_HOST}/api/embeddings",
-        json={"model": EMBED_MODEL, "prompt": text}
+        f"{OLLAMA_HOST}/api/embed",  # ← было /api/embeddings
+        json={"model": EMBED_MODEL, "input": text}  # ← было "prompt", стало "input"
     )
     response.raise_for_status()
-    return response.json()["embedding"]
+    return response.json()["embeddings"][0]  # ← было ["embedding"]
 
 
 # ── Индексация ─────────────────────────────────────────────
@@ -120,7 +119,7 @@ def delete_resume(doc_id: str) -> None:
 
 if __name__ == "__main__":
     # 1. Индексируем все резюме
-    vacancy_text = index_all("data/resumes.txt", "data/vacancy.txt")
+    vacancy_text = index_all("resumes.txt", "vacancy.txt")
 
     # 2. Ищем по тексту вакансии
     print("\n── Результаты поиска ────────────────────────────")
