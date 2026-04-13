@@ -1,42 +1,51 @@
-
-
 import json
+
 import ollama
+
 from config import MODEL_NAME
 
 
-def call_llm(prompt: str) -> str:
+def call_llm(prompt: str, num_predict: int = 350) -> str:
     response = ollama.chat(
         model=MODEL_NAME,
         messages=[{"role": "user", "content": prompt}],
+        format="json",
         options={
-            "temperature": 0.1,
-            "num_predict": 1000
-        }
+            "temperature": 0.0,
+            "num_predict": num_predict,
+        },
     )
     return response["message"]["content"]
 
 
 def parse_json_response(text: str) -> dict:
     """Парсинг JSON из ответа модели."""
-    text = text.replace("```json", "").replace("```", "").strip()
+    text = text.strip()
+
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1] if "\n" in text else text
+        if text.endswith("```"):
+            text = text[:-3]
+
+    start = text.find("{")
+    end = text.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        text = text[start : end + 1]
+
     return json.loads(text)
 
 
-def call_llm_safe(prompt: str, retries: int = 3) -> dict:
+def call_llm_safe(prompt: str, retries: int = 2, num_predict: int = 350) -> dict:
     """Вызов модели с повторными попытками при сбое парсинга."""
     for attempt in range(retries):
         try:
-            raw = call_llm(prompt)
+            current_num_predict = num_predict + attempt * 120
+            raw = call_llm(prompt, num_predict=current_num_predict)
             return parse_json_response(raw)
-        except (json.JSONDecodeError, KeyError) as e:
+        except (json.JSONDecodeError, KeyError, TypeError, ValueError) as e:
             print(f"[attempt {attempt + 1}/{retries}] Ошибка парсинга: {e}")
     return {}
 
-
-# ─────────────────────────────────────────────
-# Основные функции агента
-# ─────────────────────────────────────────────
 
 def extract_info(resume: str) -> dict:
     """
@@ -44,74 +53,109 @@ def extract_info(resume: str) -> dict:
     Возвращает: имя, навыки, опыт, образование, контакты.
     """
     prompt = f"""
-    TODO: написать промпт
+Ты извлекаешь структуру из резюме. Верни только JSON без markdown и без пояснений.
 
-    Резюме:
-    {resume}
-    """
-    return call_llm_safe(prompt)
+Нужные поля:
+- name
+- position
+- experience_years
+- skills
+- education
+- email
+- phone
+- salary
+- summary
+
+Правила:
+- skills = массив коротких строк без дублей
+- experience_years = число или null
+- summary = 1-2 коротких предложения по сути опыта
+- если поле не найдено, используй null или пустой массив
+
+Резюме:
+{resume}
+
+Формат ответа:
+{{
+  "name": null,
+  "position": null,
+  "experience_years": null,
+  "skills": [],
+  "education": null,
+  "email": null,
+  "phone": null,
+  "salary": null,
+  "summary": null
+}}
+"""
+    return call_llm_safe(prompt, num_predict=320)
 
 """
 Написать пример для оценки скора и промпт поподробнее, с указанием что именно должно совпадать, какие навыки важные, и т.д.  
 """
 def evaluate_candidate(candidate: dict, vacancy: str) -> dict:
+    candidate_text = candidate.get("text", "")
+    metadata = candidate.get("metadata", {})
+    candidate_name = metadata.get("name", "")
+    candidate_id = metadata.get("candidate_id") or candidate.get("id", "")
+
     prompt = f"""
-Ты — опытный HR-аналитик. Тебе нужно оценить кандидата на вакансию.
+Ты оцениваешь кандидата на вакансию. Верни только JSON без markdown и без пояснений.
 
 === ВАКАНСИЯ ===
 {vacancy}
 
 === КАНДИДАТ ===
-{candidate["text"]}
+ID: {candidate_id}
+Имя: {candidate_name}
+Текст резюме:
+{candidate_text}
 
-=== КАК ДУМАТЬ ===
-Ты опытный HR с многолетней практикой в найме IT-специалистов. 
-Перед тем как выставить score, последовательно рассуди по каждому пункту:
+=== КАК ОЦЕНИВАТЬ ===
+Сделай оценку УНИВЕРСАЛЬНО для любой вакансии, опираясь ТОЛЬКО на текст вакансии выше.
 
-НАВЫКИ:
-- Какие обязательные навыки из вакансии есть у кандидата напрямую?
-- Какие навыки похожи но не совпадают точно — например scikit-learn вместо PyTorch, Flask вместо FastAPI?
-- Насколько критична именно эта замена для данной роли?
-- Есть ли у кандидата навыки которых нет в вакансии но которые усиливают его профиль?
+1) Сначала выдели из вакансии:
+- обязательные требования (must-have),
+- желательные требования (nice-to-have),
+- условия (зарплата, формат, график, локация и т.д., если они явно указаны).
 
-ОПЫТ:
-- Сколько лет опыта и в какой именно области — общий Python или именно ML/NLP/LLM?
-- Работал ли кандидат с production-системами или только с учебными проектами?
-- Есть ли опыт именно с языковыми моделями и RAG или только с классическим ML?
-- Компенсирует ли глубина опыта в одной области отсутствие опыта в другой?
+2) Затем сравни кандидата с вакансией:
+- matched_skills: включай только то, что явно требуется в вакансии и действительно есть у кандидата;
+- missing_skills: включай только то, что требуется в вакансии, но у кандидата не найдено;
+- учитывай частичные/эквивалентные совпадения (похожие технологии) как частичный плюс, но не как полное совпадение must-have;
+- не дублируй пункты и не добавляй в missing то, что уже есть у кандидата.
 
-СООТВЕТСТВИЕ РОЛИ:
-- Эта позиция требует ML Engineer — насколько близка текущая позиция кандидата к этому?
-- Если кандидат backend-разработчик или data scientist — насколько реален переход на эту роль?
-- Есть ли признаки что кандидат уже двигается в нужную сторону?
+3) По опыту и роли:
+- оцени релевантность опыта именно к данной вакансии;
+- коммерческий и production-опыт приоритетнее учебных и pet-проектов;
+- experience_match = true только если кандидат в целом тянет обязательный уровень по опыту.
 
-ЗАРПЛАТА:
-- Вписывается ли ожидаемая зарплата в бюджет вакансии?
-- Если превышает — насколько кандидат это оправдывает своим опытом?
+4) По условиям:
+- salary_match = true только если ожидания кандидата вписываются в условия вакансии,
+  если в вакансии указана зарплата; если зарплата в вакансии не указана, ставь true.
 
-После того как прошёлся по всем пунктам — выставь score как итоговое впечатление.
-Не усредняй механически. Если кандидат закрывает самое критичное — это важнее чем 
-несколько мелких пробелов. Если не хватает чего-то ключевого — это должно сильно 
-тянуть score вниз даже при сильном остальном профиле.
+5) Итоговый score (0-100):
+- это вероятность, что кандидат подойдет на эту вакансию;
+- не считай по формуле, но must-have влияют сильнее nice-to-have;
+- если провалены ключевые must-have, score должен заметно снижаться;
+- используй всю шкалу, не округляй до десятков.
 
-Score — это твоя экспертная оценка вероятности того, что кандидат подойдёт на эту роль.
-Не считай по формуле. Думай как живой человек который провёл тысячи собеседований.
-Используй всю шкалу от 0 до 100, не округляй до десяток.
+Пиши кратко, фактически и без противоречий.
 
 === ФОРМАТ ОТВЕТА ===
 Верни ТОЛЬКО JSON без markdown:
 {{
-  "candidate_id": "{candidate["metadata"]["candidate_id"]}",
-  "name": "{candidate["metadata"]["name"]}",
+  "candidate_id": "{candidate_id}",
+  "name": "{candidate_name}",
   "score": <число от 0 до 100>,
   "matched_skills": [<что есть и нужно>],
   "missing_skills": [<чего нет но требуется>],
   "experience_match": <true/false>,
   "salary_match": <true/false>,
-  "comment": ""comment": "<если score >= 70: напиши что именно делает кандидата сильным, какие навыки особенно ценны для этой роли и почему стоит пригласить на собеседование | если score 40-69: напиши что есть хорошего но чего критически не хватает и стоит ли рассматривать при отсутствии лучших кандидатов | если score < 40: напиши коротко почему не подходит и что именно мешает — без воды, конкретно по стеку и опыту. Максимум 2-3 предложения>""
+    "comment": "<1-3 коротких предложения: ключевые совпадения, ключевые пробелы и итог по интервью>"
 }}
 """
-    return call_llm_safe(prompt)
+    return call_llm_safe(prompt, num_predict=220)
 
 
 def rank_candidates(candidates: list, vacancy: str) -> list:
@@ -119,11 +163,17 @@ def rank_candidates(candidates: list, vacancy: str) -> list:
 
     for candidate in candidates:
         evaluation = evaluate_candidate(candidate, vacancy)
+        raw_score = evaluation.get("score", 0)
+        try:
+            score = float(raw_score)
+        except (TypeError, ValueError):
+            score = 0.0
+
         results.append({
             "id": candidate["id"],
             "metadata": candidate["metadata"],
-            "score": evaluation.get("score", 0),
-            "evaluation": evaluation
+            "score": score,
+            "evaluation": evaluation,
         })
 
     ranked = sorted(results, key=lambda x: x["score"], reverse=True)

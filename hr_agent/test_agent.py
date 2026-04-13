@@ -7,7 +7,10 @@ from config import CHROMA_DB_PATH, COLLECTION_NAME
 
 def get_all_candidates_from_chroma() -> list:
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    chroma_path = os.path.join(base_dir, "chroma_db")
+    if os.path.isabs(CHROMA_DB_PATH):
+        chroma_path = CHROMA_DB_PATH
+    else:
+        chroma_path = os.path.normpath(os.path.join(base_dir, CHROMA_DB_PATH))
 
     client = chromadb.PersistentClient(path=chroma_path)
     collection = client.get_collection(COLLECTION_NAME)
@@ -29,11 +32,14 @@ def get_all_candidates_from_chroma() -> list:
 
 # ─────────────────────────────────────────────
 
-with open("test_data/vacancy.txt", "r", encoding="utf-8") as f:
+vacancy_path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "test_data", "vacancy.txt"))
+with open(vacancy_path, "r", encoding="utf-8") as f:
     vacancy = f.read()
 
 print("Загружаем кандидатов из ChromaDB...")
 candidates = get_all_candidates_from_chroma()
+TEST_LIMIT = 3
+candidates = candidates[:TEST_LIMIT]
 print(f"Найдено кандидатов: {len(candidates)}\n")
 print("=" * 50)
 
