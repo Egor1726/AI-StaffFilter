@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #222;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 650px;
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.description {
+  margin-bottom: 24px;
+  color: #555;
+}
+
+.field {
+  margin-bottom: 24px;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.drop-zone {
+  border: 2px dashed #94a3b8;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  background: #f8fafc;
+  transition: 0.2s ease;
+}
+
+.drop-zone.drag-active {
+  border-color: #2563eb;
+  background: #dbeafe;
+}
+
+.drop-zone p {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #475569;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.secondary-button {
+  width: auto;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #334155;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background: #1e293b;
+}
+
+.file-name {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.status {
+  margin-top: 20px;
+}
+
+.error {
+  margin-top: 12px;
+  color: #b91c1c;
+  font-weight: 600;
+}
