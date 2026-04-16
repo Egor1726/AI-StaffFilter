@@ -141,3 +141,22 @@ vite.config.ts.timestamp-*
 
 
 chroma_db/
+
+# frontend
+frontend/node_modules/
+
+# backend runtime
+backend/uploads/
+
+# common
+*.log
+*.tmp
+# frontend
+frontend/node_modules/
+
+# backend runtime
+backend/uploads/
+
+# common
+*.log
+*.tmp
