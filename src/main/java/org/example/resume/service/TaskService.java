@@ -11,10 +11,9 @@ public class TaskService {
 
     private final Map<String, Task> tasks = new HashMap<>();
 
-    public Task createTask(String taskId) {
+    public void createTask(String taskId) {
         Task task = new Task(taskId, "PROCESSING");
         tasks.put(taskId, task);
-        return task;
     }
 
     public Task getTask(String taskId) {
