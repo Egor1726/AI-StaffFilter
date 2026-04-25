@@ -90,9 +90,40 @@ public class FileStorageService {
 
         Files.writeString(resultPath, resultContent.toString(), StandardCharsets.UTF_8);
 
-        taskService.completeTask(taskId, resultPath.toString());
+        Path finalResultPath = taskDir.resolve("final_result.txt");
+
+        System.out.println("Ожидание обработки нейросетью (taskId: " + taskId + ")...");
+
+        int maxAttempts = 200;
+        int attempt = 0;
+
+        while (!Files.exists(finalResultPath) && attempt < maxAttempts) {
+            try {
+                Thread.sleep(2000);
+                attempt++;
+                System.out.println("Проверка " + attempt + "/" + maxAttempts +
+                        " - файл final_result.txt еще не создан...");
+            } catch (InterruptedException e) {
+                System.err.println("Ожидание прервано");
+                break;
+            }
+        }
+
+        if (Files.exists(finalResultPath)) {
+            if (Files.size(finalResultPath) > 0) {
+                System.out.println("Нейросеть завершила обработку!");
+                taskService.completeTask(taskId, finalResultPath.toString());
+            } else {
+                System.err.println("Файл final_result.txt пустой! Используем локальный результат.");
+                taskService.completeTask(taskId, resultPath.toString());
+            }
+        } else {
+            System.err.println("Таймаут ожидания нейросети (" + (attempt * 2) + " сек). " + "Используем локальный результат.");
+            taskService.completeTask(taskId, resultPath.toString());
+        }
 
         return taskId;
+
     }
 
     private Set<String> parseRequirements(String requirementsText) {

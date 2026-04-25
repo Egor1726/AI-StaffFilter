@@ -79,8 +79,14 @@ public class ResumeController {
                     .body("Ошибка: Файл результата был удален или поврежден на сервере.");
         }
 
+        if (file.length() == 0) {
+            return ResponseEntity
+                    .status(500)
+                    .body(null);
+        }
+
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"result.txt\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"final_result.txt\"")
                 .body(new FileSystemResource(file));
     }
 }
