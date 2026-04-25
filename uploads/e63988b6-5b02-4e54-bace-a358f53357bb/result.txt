@@ -1,0 +1,109 @@
+═══════════════════════════════════════════════════════════
+           ОТЧЁТ ПО ОБРАБОТКЕ РЕЗЮМЕ
+═══════════════════════════════════════════════════════════
+
+КЛЮЧЕВЫЕ СЛОВА ДЛЯ ПОИСКА:
+   [java, spring, sql, b1, docker, python, c++, frontend, react, microservices]
+
+НАЙДЕНО ПОДХОДЯЩИХ РЕЗЮМЕ: 3
+
+═══════════════════════════════════════════════════════════
+                    СПИСОК РЕЗЮМЕ
+═══════════════════════════════════════════════════════════
+
+───────────────────────────────────────────────────────────
+№ 1 | Файл: resume_qa.pdf
+Совпадений с требованиями: 4
+Найдено совпадений: sql, b1, docker, python
+───────────────────────────────────────────────────────────
+
+СОДЕРЖИМОЕ РЕЗЮМЕ:
+
+IVAN SMIRNOV
+QA Automation Engineer
+ivan@email.com | +7 (911) 567-8901 | Yekaterinburg
+PROFILE
+QA automation specialist with 4+ years of experience. Proficient in test automation for web and API testing. Strong
+knowledge of test frameworks, CI/CD pipelines, and quality assurance best practices.
+TECHNICAL SKILLS
+Selenium, Cypress, JavaScript, Python, REST API Testing, Postman, Git, Jenkins, Docker, Jira, TestRail, Allure Report, SQL
+WORK EXPERIENCE
+QA Automation Engineer | SoftBank Tech | 2021 - Present
+• Developed end-to-end tests using Cypress for web application
+• Automated API testing with Postman and JavaScript
+• Integrated tests into CI/CD pipeline with GitHub Actions
+QA Automation Engineer | ITPro Solutions | 2019 - 2021
+• Created automated test suites using Selenium WebDriver
+• Maintained test data and regression test packs
+QA Tester | Web Agency | 2018 - 2019
+• Manual functional and regression testing
+EDUCATION
+Bachelor in Information Security | UrFU | 2018
+LANGUAGES
+Russian (Native), English (B1)
+
+
+───────────────────────────────────────────────────────────
+№ 2 | Файл: resume_backend.pdf
+Совпадений с требованиями: 3
+Найдено совпадений: docker, python, microservices
+───────────────────────────────────────────────────────────
+
+СОДЕРЖИМОЕ РЕЗЮМЕ:
+
+ALEXANDER PETROV
+Senior Backend Developer
+alex@email.com | +7 (926) 123-4567 | Moscow
+PROFILE
+Experienced backend developer with 7+ years of Python expertise. Skilled in building scalable microservices, REST APIs,
+and high-load systems. Strong knowledge of databases, caching, and DevOps practices.
+TECHNICAL SKILLS
+Python, Django, FastAPI, PostgreSQL, Redis, Docker, Kubernetes, REST API, Git, CI/CD, Elasticsearch, RabbitMQ, Pytest
+WORK EXPERIENCE
+Senior Backend Developer | FinTech Corp | 2021 - Present
+• Developed payment microservices using FastAPI and PostgreSQL
+• Optimized database queries, improved performance by 40%
+• Deployed and maintained Kubernetes clusters
+Backend Developer | E-commerce Solutions | 2018 - 2021
+• Built and maintained Django backend for platform with 10M+ users
+• Integrated payment systems and third-party APIs
+Junior Developer | Startup | 2017 - 2018
+• Developed REST APIs using Django and Flask
+EDUCATION
+Bachelor of Science in Computer Science | MSTU Bauman | 2019
+LANGUAGES
+Russian (Native), English (B2)
+
+
+───────────────────────────────────────────────────────────
+№ 3 | Файл: resume_frontend.pdf
+Совпадений с требованиями: 2
+Найдено совпадений: frontend, react
+───────────────────────────────────────────────────────────
+
+СОДЕРЖИМОЕ РЕЗЮМЕ:
+
+MARIA SOKOLOVA
+Frontend Developer (React)
+maria@email.com | +7 (916) 987-6543 | Saint Petersburg
+PROFILE
+Frontend specialist with 5+ years building modern web applications using React and JavaScript. Expertise in creating
+responsive UI, optimizing performance, and implementing best practices.
+TECHNICAL SKILLS
+React, TypeScript, JavaScript, HTML5, CSS3, Redux, Next.js, Material-UI, Tailwind CSS, Git, Jest, REST API, Webpack
+WORK EXPERIENCE
+Frontend Developer | Digital Agency | 2021 - Present
+• Built React components for SaaS platform
+• Improved Lighthouse score by 35 points through optimization
+• Implemented TypeScript for type safety
+React Developer | Startup | 2019 - 2021
+• Developed user dashboard and admin panel in React
+• Collaborated with designers for UI implementation
+Frontend Developer | Web Studio | 2018 - 2019
+• HTML/CSS/JavaScript development for web projects
+EDUCATION
+Specialist in Computer Science | SPbPU | 2018
+LANGUAGES
+Russian (Native), English (A2)
+
+
