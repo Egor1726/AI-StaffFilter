@@ -1,120 +1,207 @@
 import requests
 import chromadb
+from typing import List, Dict, Any
+
 from config import OLLAMA_HOST, EMBED_MODEL, CHROMA_DB_PATH, COLLECTION_NAME
-from txt_processor import process_files
+from preprocessor import Preprocessor
 
 
-# ── Инициализация ──────────────────────────────────────────
+# =====================
+# INIT
+# =====================
 
 def get_collection():
-    """Возвращает (или создаёт) коллекцию ChromaDB."""
     client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
     return client.get_or_create_collection(COLLECTION_NAME)
 
 
-# ── Эмбеддинги ─────────────────────────────────────────────
+# =====================
+# EMBEDDINGS
+# =====================
 
-def get_embedding(text: str) -> list[float]:
+def get_embedding(text: str) -> List[float]:
     response = requests.post(
         f"{OLLAMA_HOST}/api/embed",
-        json={"model": EMBED_MODEL, "input": text}  
+        json={
+            "model": EMBED_MODEL,
+            "input": text
+        }
     )
     response.raise_for_status()
-    return response.json()["embeddings"][0]  # ← было ["embedding"]
+    return response.json()["embeddings"][0]
 
 
-# ── Индексация ─────────────────────────────────────────────
+# =====================
+# PROFILE BUILDER
+# =====================
 
-def add_resume(doc_id: str, text: str, metadata: dict) -> None:
-    """
-    Добавляет одно резюме в ChromaDB.
-    Вызывается из index_all() для каждого кандидата.
-    """
-    collection = get_collection()
-    embedding = get_embedding(text)
+def build_candidate_profile(data: Dict[str, Any]) -> Dict[str, Any]:
+    skills = list(set([s.lower().strip() for s in data.get("skills", [])]))
 
-    collection.add(
-        ids=[doc_id],
-        embeddings=[embedding],
-        documents=[text],
-        metadatas=[metadata]
+    experience = data.get("experience_years") or 0
+    position = data.get("position") or ""
+
+    embedding_text = build_embedding_text(
+        skills,
+        experience,
+        position,
+        data.get("summary"),
+        data.get("experience", [])
     )
-    print(f"[indexer] Добавлен: {metadata.get('name', doc_id)}")
+
+    return {
+        "name": data.get("name"),
+        "position": position,
+        "experience_years": experience,
+        "education": data.get("education"),
+        "skills": skills,
+        "languages": data.get("languages"),
+        "summary": data.get("summary"),
+
+        # ключевое
+        "embedding_text": embedding_text
+    }
 
 
-def index_all(resumes_path: str, vacancy_path: str) -> str:
+def build_embedding_text(
+    skills,
+    experience,
+    position,
+    summary,
+    experience_list
+) -> str:
+
+    parts = []
+
+    if position:
+        parts.append(f"Position: {position}")
+
+    if skills:
+        parts.append(f"Skills: {', '.join(skills)}")
+
+    parts.append(f"Experience: {experience} years")
+
+    if summary:
+        parts.append(f"Summary: {summary}")
+
+    if experience_list:
+        companies = [e.get("company") for e in experience_list if e.get("company")]
+        if companies:
+            parts.append(f"Companies: {', '.join(companies)}")
+
+    return "\n".join(parts)
+
+
+# =====================
+# INDEX ONE RESUME
+# =====================
+
+def add_resume(doc_id: str, raw_text: str, preprocessor: Preprocessor) -> None:
+    collection = get_collection()
+
+    try:
+        # 1. LLM → JSON
+        parsed = preprocessor.process_resume(raw_text)
+
+        # 2. JSON → профиль
+        profile = build_candidate_profile(parsed)
+
+        # 3. embedding
+        embedding = get_embedding(profile["embedding_text"])
+
+        # 4. запись в Chroma
+        collection.add(
+            ids=[doc_id],
+            embeddings=[embedding],
+            documents=[profile["embedding_text"]],
+            metadatas=[profile]
+        )
+
+        print(f"[indexer] Добавлен: {profile.get('name', doc_id)}")
+
+    except Exception as e:
+        print(f"[indexer] Ошибка обработки {doc_id}: {e}")
+
+
+# =====================
+# INDEX ALL
+# =====================
+
+def index_all(resumes: List[Dict], vacancy_text: str) -> str:
     """
-    Главная функция индексации.
-    Читает файлы через txt_processor, векторизирует и кладёт в ChromaDB.
-
-    Возвращает текст вакансии — для агента (Человек 3).
+    resumes = [
+        {"id": "...", "text": "..."},
+        ...
+    ]
     """
-    documents, vacancy_text = process_files(resumes_path, vacancy_path)
 
-    for doc in documents:
-        add_resume(doc["id"], doc["text"], doc["metadata"])
+    preprocessor = Preprocessor()
 
-    print(f"[indexer] Проиндексировано: {len(documents)} резюме")
+    for doc in resumes:
+        add_resume(doc["id"], doc["text"], preprocessor)
+
+    print(f"[indexer] Проиндексировано: {len(resumes)} резюме")
+
     return vacancy_text
 
 
-# ── Поиск ──────────────────────────────────────────────────
+# =====================
+# SEARCH
+# =====================
 
-def search(query: str) -> list[dict]:
-    """
-    Ищет всех кандидатов и возвращает их отсортированными по score.
-    Вызывается агентом (Человек 3).
-
-    Args:
-        query: текст вакансии или поисковый запрос
-
-    Returns:
-        список всех кандидатов, отсортированных по релевантности (score 0.0–1.0)
-    """
+def search(query: str, top_k: int = 50) -> List[Dict]:
     collection = get_collection()
+
     total = collection.count()
 
     if total == 0:
-        print("[indexer] База пуста — сначала запусти index_all()")
+        print("[indexer] База пуста")
         return []
 
     embedding = get_embedding(query)
 
     results = collection.query(
         query_embeddings=[embedding],
-        n_results=total,
+        n_results=min(top_k, total),
         include=["documents", "metadatas", "distances"]
     )
 
     candidates = []
+
     for i in range(len(results["ids"][0])):
+        meta = results["metadatas"][0][i]
         score = round(1 - results["distances"][0][i], 3)
-        meta  = results["metadatas"][0][i]
 
         candidates.append({
-            "score":            score,
-            "name":             meta.get("name"),
-            "position":         meta.get("position"),
-            "email":            meta.get("email"),
-            "phone":            meta.get("phone"),
-            "experience_years": meta.get("experience_years"),
-            "education":        meta.get("education"),
-            "skills":           meta.get("skills"),
-            "expected_salary":  meta.get("expected_salary"),
+            "score": score,
+            "candidate": meta
         })
 
-    # Сортировка: лучшие кандидаты наверху
     candidates.sort(key=lambda x: x["score"], reverse=True)
+
     return candidates
 
 
+# =====================
+# DELETE
+# =====================
+
 def delete_resume(doc_id: str) -> None:
-    """Удаляет резюме из базы по ID."""
     collection = get_collection()
     collection.delete(ids=[doc_id])
     print(f"[indexer] Удалено: {doc_id}")
 
+
+# =====================
+# RUN
+# =====================
+
 if __name__ == "__main__":
-    print("[indexer] Запуск индексации...")
-    vacancy_text = index_all("resumes.txt", "vacancy.txt")
-    print("[indexer] Готово. База данных обновлена.")
+    print("[indexer] Пример запуска...")
+
+    resumes = [
+        {"id": "1", "text": "пример резюме 1"},
+        {"id": "2", "text": "пример резюме 2"},
+    ]
+
+    index_all(resumes, "пример вакансии")
