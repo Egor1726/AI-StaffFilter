@@ -1,109 +1,68 @@
 import json
 import re
-from typing import Dict, Any
-from agent import Agent
-
-
-# =====================
-# PROMPT
-# =====================
-
-RESUME_PROMPT = """
-Ты эксперт HR и Data Engineer.
-
-Преобразуй резюме в СТРОГО валидный JSON.
-
-ТРЕБОВАНИЯ:
-- Только JSON
-- Не выдумывай
-- Если нет данных → null
-- Навыки в lowercase
-- Удали дубликаты
-- Сократи описание опыта
-
-ФОРМАТ:
-
-{
-  "name": string | null,
-  "age": number | null,
-  "location": string | null,
-  "citizenship": string | null,
-  "position": string | null,
-  "employment_type": string | null,
-  "work_format": [string],
-  "experience_years": number,
-
-  "skills": [string],
-
-  "languages": [
-    {"name": string, "level": string}
-  ],
-
-  "education": string | null,
-
-  "experience": [
-    {
-      "company": string,
-      "role": string,
-      "duration": string,
-      "domain": string | null,
-      "stack": [string]
-    }
-  ],
-
-  "summary": string
-}
-
-РЕЗЮМЕ:
-{text}
-"""
-
-
-# =====================
-# UTILS
-# =====================
-
-def clean_llm_output(text: str) -> str:
-    text = re.sub(r"```json|```", "", text).strip()
-
-    start = text.find("{")
-    end = text.rfind("}")
-
-    if start != -1 and end != -1:
-        text = text[start:end + 1]
-
-    return text
-
-
-def safe_json_load(text: str):
-    try:
-        return json.loads(text)
-    except:
-        return None
-
-
-def truncate_text(text: str, max_chars=12000):
-    return text[:max_chars]
-
+from agent import call_smart_llm
 
 class Preprocessor:
     def __init__(self):
-        self.agent = Agent()
+        # Промпты вынесены сюда, чтобы файл был самодостаточным
+        self.RESUME_PROMPT = """
+        Ты — HR-ассистент. Преобразуй текст резюме в структурированный JSON на русском языке.
+        
+        ФОРМАТ:
+        {{
+          "name": "Имя или Аноним",
+          "position": "Текущая роль",
+          "level": "Junior/Middle/Senior",
+          "experience_years": число,
+          "skills": {{
+            "hard": ["навык1", "навык2"],
+            "tools": ["инструмент1"]
+          }},
+          "summary": "Краткое описание опыта"
+        }}
 
-    def process_resume(self, text: str) -> Dict[str, Any]:
-        text = truncate_text(text)
+        ТЕКСТ РЕЗЮМЕ:
+        {text}
+        """
 
-        prompt = RESUME_PROMPT.format(text=text)
+        self.VACANCY_PROMPT = """
+        Ты — Senior IT Recruiter. Структурируй вакансию в JSON.
+        
+        ФОРМАТ:
+        {{
+          "position": "Название",
+          "level": "Требуемый уровень",
+          "required_skills": ["скилл1", "скилл2"],
+          "required_experience": число,
+          "description": "Краткое описание сути"
+        }}
 
-        for _ in range(3):
-            try:
-                raw = self.agent.generate(prompt)
-                cleaned = clean_llm_output(raw)
-                data = safe_json_load(cleaned)
+        ТЕКСТ ВАКАНСИИ:
+        {text}
+        """
 
-                if data:
-                    return data
-            except:
-                continue
+    def _parse_json(self, text):
+        """Очистка ответа модели от лишнего текста и поиск JSON."""
+        try:
+            match = re.search(r'\{[\s\S]*\}', text)
+            if match:
+                return json.loads(match.group(0))
+            return json.loads(text)
+        except:
+            return {}
 
-        raise ValueError("Ошибка парсинга резюме")
+    def process_resume(self, raw_text):
+        prompt = self.RESUME_PROMPT.format(text=raw_text[:4000])
+        # Используем умную модель для качественного парсинга
+        response = call_smart_llm(prompt)
+        # Если пришел словарь (уже распарсенный в agent.py), возвращаем его
+        if isinstance(response, dict):
+            return response
+        return self._parse_json(response)
+
+    def process_vacancy(self, raw_text):
+        prompt = self.VACANCY_PROMPT.format(text=raw_text[:4000])
+        response = call_smart_llm(prompt)
+        if isinstance(response, dict):
+            return response
+        return self._parse_json(response)

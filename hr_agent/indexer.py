@@ -1,207 +1,174 @@
-import requests
+import json
 import chromadb
-from typing import List, Dict, Any
+import ollama
 
-from config import OLLAMA_HOST, EMBED_MODEL, CHROMA_DB_PATH, COLLECTION_NAME
+from config import (
+    CHROMA_DB_PATH,
+    COLLECTION_NAME,
+    EMBED_MODEL
+)
+
 from preprocessor import Preprocessor
 
 
-# =====================
-# INIT
-# =====================
+# ------------------------
+# CHROMA
+# ------------------------
+
+client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+
 
 def get_collection():
-    client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
-    return client.get_or_create_collection(COLLECTION_NAME)
+    return client.get_or_create_collection(name=COLLECTION_NAME)
 
 
-# =====================
-# EMBEDDINGS
-# =====================
+# ------------------------
+# EMBEDDING
+# ------------------------
 
-def get_embedding(text: str) -> List[float]:
-    response = requests.post(
-        f"{OLLAMA_HOST}/api/embed",
-        json={
-            "model": EMBED_MODEL,
-            "input": text
-        }
+def get_embedding(text: str):
+    response = ollama.embeddings(
+        model=EMBED_MODEL,
+        prompt=text
     )
-    response.raise_for_status()
-    return response.json()["embeddings"][0]
+    return response["embedding"]
 
 
-# =====================
-# PROFILE BUILDER
-# =====================
-
-def build_candidate_profile(data: Dict[str, Any]) -> Dict[str, Any]:
-    skills = list(set([s.lower().strip() for s in data.get("skills", [])]))
-
-    experience = data.get("experience_years") or 0
-    position = data.get("position") or ""
-
-    embedding_text = build_embedding_text(
-        skills,
-        experience,
-        position,
-        data.get("summary"),
-        data.get("experience", [])
-    )
-
-    return {
-        "name": data.get("name"),
-        "position": position,
-        "experience_years": experience,
-        "education": data.get("education"),
-        "skills": skills,
-        "languages": data.get("languages"),
-        "summary": data.get("summary"),
-
-        # ключевое
-        "embedding_text": embedding_text
-    }
-
-
-def build_embedding_text(
-    skills,
-    experience,
-    position,
-    summary,
-    experience_list
-) -> str:
-
+def build_embedding_text(profile: dict):
     parts = []
 
-    if position:
-        parts.append(f"Position: {position}")
+    # Проверка позиции
+    if profile.get("position"):
+        parts.append(str(profile["position"]))
 
-    if skills:
-        parts.append(f"Skills: {', '.join(skills)}")
+    # Безопасное извлечение скиллов
+    skills = profile.get("skills")
+    if isinstance(skills, dict):
+        # Используем "or []" на случай, если в JSON пришло "hard": null
+        hard_skills = skills.get("hard") or []
+        tools = skills.get("tools") or []
+        
+        # Проверяем, что это именно списки, прежде чем делать extend
+        if isinstance(hard_skills, list):
+            parts.extend([str(s) for s in hard_skills])
+        if isinstance(tools, list):
+            parts.extend([str(t) for t in tools])
 
-    parts.append(f"Experience: {experience} years")
+    # Опыт
+    if profile.get("experience_years") is not None:
+        parts.append(f"{profile['experience_years']} years experience")
 
-    if summary:
-        parts.append(f"Summary: {summary}")
+    # Саммари
+    if profile.get("summary"):
+        parts.append(str(profile["summary"])[:500])
 
-    if experience_list:
-        companies = [e.get("company") for e in experience_list if e.get("company")]
-        if companies:
-            parts.append(f"Companies: {', '.join(companies)}")
-
-    return "\n".join(parts)
+    return " ".join(parts)
 
 
-# =====================
-# INDEX ONE RESUME
-# =====================
+def build_vacancy_embedding(vacancy: dict):
+    parts = []
 
-def add_resume(doc_id: str, raw_text: str, preprocessor: Preprocessor) -> None:
+    if vacancy.get("position"):
+        parts.append(str(vacancy["position"]))
+
+    # Защита от null в required_skills
+    req_skills = vacancy.get("required_skills") or []
+    if isinstance(req_skills, list):
+        parts.extend([str(s) for s in req_skills])
+
+    if vacancy.get("required_experience") is not None:
+        parts.append(f"{vacancy['required_experience']} years experience")
+
+    if vacancy.get("description"):
+        parts.append(str(vacancy["description"])[:500])
+
+    return " ".join(parts)
+
+
+# ------------------------
+# Вспомогательная функция для ChromaDB
+# ------------------------
+
+def flatten_metadata(data: dict) -> dict:
+    """Превращает вложенные словари и списки в строки для ChromaDB."""
+    flat = {}
+    for key, value in data.items():
+        if isinstance(value, (dict, list)):
+            # Сохраняем сложные структуры как JSON-строки
+            flat[key] = json.dumps(value, ensure_ascii=False)
+        elif value is None:
+            # ChromaDB может не любить None в некоторых версиях, превращаем в пустую строку или null
+            flat[key] = ""
+        else:
+            flat[key] = value
+    return flat
+
+
+# ------------------------
+# ADD RESUME
+# ------------------------
+
+def add_resume(doc_id: str, raw_text: str):
     collection = get_collection()
+    pre = Preprocessor()
 
+    # 1. Получаем распарсенный профиль
+    profile = pre.process_resume(raw_text)
+    if not profile:
+        print(f"  [SKIP] {doc_id}: модель не смогла распарсить текст")
+        return
+
+    # 2. Подготавливаем текст для эмбеддинга
+    embedding_text = build_embedding_text(profile)
+    embedding = get_embedding(embedding_text)
+
+    if not embedding or len(embedding) == 0:
+        print(f"  [SKIP] {doc_id}: не удалось получить эмбеддинг")
+        return
+
+    # 3. Подготавливаем плоские метаданные для фильтрации
+    # Оставляем только простые типы для работы фильтров Chroma
+    metadata = {
+        "position": str(profile.get("position", "")),
+        "experience_years": profile.get("experience_years", 0) or 0,
+        "level": str(profile.get("level", ""))
+    }
+
+    # 4. Сохраняем в ChromaDB
     try:
-        # 1. LLM → JSON
-        parsed = preprocessor.process_resume(raw_text)
-
-        # 2. JSON → профиль
-        profile = build_candidate_profile(parsed)
-
-        # 3. embedding
-        embedding = get_embedding(profile["embedding_text"])
-
-        # 4. запись в Chroma
-        collection.add(
+        # Используем upsert вместо add, чтобы не падать на дубликатах ID
+        collection.upsert(
             ids=[doc_id],
             embeddings=[embedding],
-            documents=[profile["embedding_text"]],
-            metadatas=[profile]
+            # В documents кладем ПОЛНЫЙ JSON строкой - его будем читать в поиске
+            documents=[json.dumps(profile, ensure_ascii=False)],
+            metadatas=[metadata]
         )
-
-        print(f"[indexer] Добавлен: {profile.get('name', doc_id)}")
-
     except Exception as e:
-        print(f"[indexer] Ошибка обработки {doc_id}: {e}")
+        print(f"  [ERROR] {doc_id} при добавлении в базу: {e}")
 
+# ------------------------
+# ADD VACANCY
+# ------------------------
 
-# =====================
-# INDEX ALL
-# =====================
-
-def index_all(resumes: List[Dict], vacancy_text: str) -> str:
-    """
-    resumes = [
-        {"id": "...", "text": "..."},
-        ...
-    ]
-    """
-
-    preprocessor = Preprocessor()
-
-    for doc in resumes:
-        add_resume(doc["id"], doc["text"], preprocessor)
-
-    print(f"[indexer] Проиндексировано: {len(resumes)} резюме")
-
-    return vacancy_text
-
-
-# =====================
-# SEARCH
-# =====================
-
-def search(query: str, top_k: int = 50) -> List[Dict]:
+def add_vacancy(doc_id: str, raw_text: str):
     collection = get_collection()
+    pre = Preprocessor()
 
-    total = collection.count()
+    # 1. Получаем распарсенную вакансию
+    vacancy = pre.process_vacancy(raw_text)
 
-    if total == 0:
-        print("[indexer] База пуста")
-        return []
+    # 2. Подготавливаем текст для эмбеддинга
+    embedding_text = build_vacancy_embedding(vacancy)
+    embedding = get_embedding(embedding_text)
 
-    embedding = get_embedding(query)
+    # 3. Подготавливаем плоские метаданные
+    metadata = flatten_metadata(vacancy)
 
-    results = collection.query(
-        query_embeddings=[embedding],
-        n_results=min(top_k, total),
-        include=["documents", "metadatas", "distances"]
+    # 4. Сохраняем в ChromaDB
+    collection.add(
+        ids=[doc_id],
+        embeddings=[embedding],
+        documents=[json.dumps(vacancy, ensure_ascii=False)],
+        metadatas=[metadata]
     )
-
-    candidates = []
-
-    for i in range(len(results["ids"][0])):
-        meta = results["metadatas"][0][i]
-        score = round(1 - results["distances"][0][i], 3)
-
-        candidates.append({
-            "score": score,
-            "candidate": meta
-        })
-
-    candidates.sort(key=lambda x: x["score"], reverse=True)
-
-    return candidates
-
-
-# =====================
-# DELETE
-# =====================
-
-def delete_resume(doc_id: str) -> None:
-    collection = get_collection()
-    collection.delete(ids=[doc_id])
-    print(f"[indexer] Удалено: {doc_id}")
-
-
-# =====================
-# RUN
-# =====================
-
-if __name__ == "__main__":
-    print("[indexer] Пример запуска...")
-
-    resumes = [
-        {"id": "1", "text": "пример резюме 1"},
-        {"id": "2", "text": "пример резюме 2"},
-    ]
-
-    index_all(resumes, "пример вакансии")
