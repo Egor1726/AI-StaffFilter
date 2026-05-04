@@ -2,9 +2,9 @@ package org.example.resume.dto;
 
 
 public class UploadResponse {
-    private String taskId;
-    private String status;
-    private String message;
+    private final String taskId;
+    private final String status;
+    private final String message;
 
     public UploadResponse(String taskId, String status, String message) {
         this.taskId = taskId;
