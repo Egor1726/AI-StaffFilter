@@ -1,5 +1,0 @@
-*.db
-data/resumes.txt
-data/vacancy.txt
-__pycache__/
-*.pyc
