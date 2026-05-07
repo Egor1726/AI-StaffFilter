@@ -1,120 +1,174 @@
-import requests
+import json
 import chromadb
-from config import OLLAMA_HOST, EMBED_MODEL, CHROMA_DB_PATH, COLLECTION_NAME
-from txt_processor import process_files
+import ollama
+
+from config import (
+    CHROMA_DB_PATH,
+    COLLECTION_NAME,
+    EMBED_MODEL
+)
+
+from preprocessor import Preprocessor
 
 
-# ── Инициализация ──────────────────────────────────────────
+# ------------------------
+# CHROMA
+# ------------------------
+
+client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+
 
 def get_collection():
-    """Возвращает (или создаёт) коллекцию ChromaDB."""
-    client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
-    return client.get_or_create_collection(COLLECTION_NAME)
+    return client.get_or_create_collection(name=COLLECTION_NAME)
 
 
-# ── Эмбеддинги ─────────────────────────────────────────────
+# ------------------------
+# EMBEDDING
+# ------------------------
 
-def get_embedding(text: str) -> list[float]:
-    response = requests.post(
-        f"{OLLAMA_HOST}/api/embed",
-        json={"model": EMBED_MODEL, "input": text}  
+def get_embedding(text: str):
+    response = ollama.embeddings(
+        model=EMBED_MODEL,
+        prompt=text
     )
-    response.raise_for_status()
-    return response.json()["embeddings"][0]  # ← было ["embedding"]
+    return response["embedding"]
 
 
-# ── Индексация ─────────────────────────────────────────────
+def build_embedding_text(profile: dict):
+    parts = []
 
-def add_resume(doc_id: str, text: str, metadata: dict) -> None:
-    """
-    Добавляет одно резюме в ChromaDB.
-    Вызывается из index_all() для каждого кандидата.
-    """
+    # Проверка позиции
+    if profile.get("position"):
+        parts.append(str(profile["position"]))
+
+    # Безопасное извлечение скиллов
+    skills = profile.get("skills")
+    if isinstance(skills, dict):
+        # Используем "or []" на случай, если в JSON пришло "hard": null
+        hard_skills = skills.get("hard") or []
+        tools = skills.get("tools") or []
+        
+        # Проверяем, что это именно списки, прежде чем делать extend
+        if isinstance(hard_skills, list):
+            parts.extend([str(s) for s in hard_skills])
+        if isinstance(tools, list):
+            parts.extend([str(t) for t in tools])
+
+    # Опыт
+    if profile.get("experience_years") is not None:
+        parts.append(f"{profile['experience_years']} years experience")
+
+    # Саммари
+    if profile.get("summary"):
+        parts.append(str(profile["summary"])[:500])
+
+    return " ".join(parts)
+
+
+def build_vacancy_embedding(vacancy: dict):
+    parts = []
+
+    if vacancy.get("position"):
+        parts.append(str(vacancy["position"]))
+
+    # Защита от null в required_skills
+    req_skills = vacancy.get("required_skills") or []
+    if isinstance(req_skills, list):
+        parts.extend([str(s) for s in req_skills])
+
+    if vacancy.get("required_experience") is not None:
+        parts.append(f"{vacancy['required_experience']} years experience")
+
+    if vacancy.get("description"):
+        parts.append(str(vacancy["description"])[:500])
+
+    return " ".join(parts)
+
+
+# ------------------------
+# Вспомогательная функция для ChromaDB
+# ------------------------
+
+def flatten_metadata(data: dict) -> dict:
+    """Превращает вложенные словари и списки в строки для ChromaDB."""
+    flat = {}
+    for key, value in data.items():
+        if isinstance(value, (dict, list)):
+            # Сохраняем сложные структуры как JSON-строки
+            flat[key] = json.dumps(value, ensure_ascii=False)
+        elif value is None:
+            # ChromaDB может не любить None в некоторых версиях, превращаем в пустую строку или null
+            flat[key] = ""
+        else:
+            flat[key] = value
+    return flat
+
+
+# ------------------------
+# ADD RESUME
+# ------------------------
+
+def add_resume(doc_id: str, raw_text: str):
     collection = get_collection()
-    embedding = get_embedding(text)
+    pre = Preprocessor()
 
+    # 1. Получаем распарсенный профиль
+    profile = pre.process_resume(raw_text)
+    if not profile:
+        print(f"  [SKIP] {doc_id}: модель не смогла распарсить текст")
+        return
+
+    # 2. Подготавливаем текст для эмбеддинга
+    embedding_text = build_embedding_text(profile)
+    embedding = get_embedding(embedding_text)
+
+    if not embedding or len(embedding) == 0:
+        print(f"  [SKIP] {doc_id}: не удалось получить эмбеддинг")
+        return
+
+    # 3. Подготавливаем плоские метаданные для фильтрации
+    # Оставляем только простые типы для работы фильтров Chroma
+    metadata = {
+        "position": str(profile.get("position", "")),
+        "experience_years": profile.get("experience_years", 0) or 0,
+        "level": str(profile.get("level", ""))
+    }
+
+    # 4. Сохраняем в ChromaDB
+    try:
+        # Используем upsert вместо add, чтобы не падать на дубликатах ID
+        collection.upsert(
+            ids=[doc_id],
+            embeddings=[embedding],
+            # В documents кладем ПОЛНЫЙ JSON строкой - его будем читать в поиске
+            documents=[json.dumps(profile, ensure_ascii=False)],
+            metadatas=[metadata]
+        )
+    except Exception as e:
+        print(f"  [ERROR] {doc_id} при добавлении в базу: {e}")
+
+# ------------------------
+# ADD VACANCY
+# ------------------------
+
+def add_vacancy(doc_id: str, raw_text: str):
+    collection = get_collection()
+    pre = Preprocessor()
+
+    # 1. Получаем распарсенную вакансию
+    vacancy = pre.process_vacancy(raw_text)
+
+    # 2. Подготавливаем текст для эмбеддинга
+    embedding_text = build_vacancy_embedding(vacancy)
+    embedding = get_embedding(embedding_text)
+
+    # 3. Подготавливаем плоские метаданные
+    metadata = flatten_metadata(vacancy)
+
+    # 4. Сохраняем в ChromaDB
     collection.add(
         ids=[doc_id],
         embeddings=[embedding],
-        documents=[text],
+        documents=[json.dumps(vacancy, ensure_ascii=False)],
         metadatas=[metadata]
     )
-    print(f"[indexer] Добавлен: {metadata.get('name', doc_id)}")
-
-
-def index_all(resumes_path: str, vacancy_path: str) -> str:
-    """
-    Главная функция индексации.
-    Читает файлы через txt_processor, векторизирует и кладёт в ChromaDB.
-
-    Возвращает текст вакансии — для агента (Человек 3).
-    """
-    documents, vacancy_text = process_files(resumes_path, vacancy_path)
-
-    for doc in documents:
-        add_resume(doc["id"], doc["text"], doc["metadata"])
-
-    print(f"[indexer] Проиндексировано: {len(documents)} резюме")
-    return vacancy_text
-
-
-# ── Поиск ──────────────────────────────────────────────────
-
-def search(query: str) -> list[dict]:
-    """
-    Ищет всех кандидатов и возвращает их отсортированными по score.
-    Вызывается агентом (Человек 3).
-
-    Args:
-        query: текст вакансии или поисковый запрос
-
-    Returns:
-        список всех кандидатов, отсортированных по релевантности (score 0.0–1.0)
-    """
-    collection = get_collection()
-    total = collection.count()
-
-    if total == 0:
-        print("[indexer] База пуста — сначала запусти index_all()")
-        return []
-
-    embedding = get_embedding(query)
-
-    results = collection.query(
-        query_embeddings=[embedding],
-        n_results=total,
-        include=["documents", "metadatas", "distances"]
-    )
-
-    candidates = []
-    for i in range(len(results["ids"][0])):
-        score = round(1 - results["distances"][0][i], 3)
-        meta  = results["metadatas"][0][i]
-
-        candidates.append({
-            "score":            score,
-            "name":             meta.get("name"),
-            "position":         meta.get("position"),
-            "email":            meta.get("email"),
-            "phone":            meta.get("phone"),
-            "experience_years": meta.get("experience_years"),
-            "education":        meta.get("education"),
-            "skills":           meta.get("skills"),
-            "expected_salary":  meta.get("expected_salary"),
-        })
-
-    # Сортировка: лучшие кандидаты наверху
-    candidates.sort(key=lambda x: x["score"], reverse=True)
-    return candidates
-
-
-def delete_resume(doc_id: str) -> None:
-    """Удаляет резюме из базы по ID."""
-    collection = get_collection()
-    collection.delete(ids=[doc_id])
-    print(f"[indexer] Удалено: {doc_id}")
-
-if __name__ == "__main__":
-    print("[indexer] Запуск индексации...")
-    vacancy_text = index_all("resumes.txt", "vacancy.txt")
-    print("[indexer] Готово. База данных обновлена.")

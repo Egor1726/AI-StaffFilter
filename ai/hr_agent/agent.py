@@ -1,188 +1,202 @@
 import json
-
 import ollama
+import re
 
-from config import MODEL_NAME
+from config import (
+    FAST_MODEL,
+    SMART_MODEL,
+    FAST_TEMP,
+    SMART_TEMP,
+    FAST_MAX_TOKENS,
+    SMART_MAX_TOKENS,
+    MAX_RETRIES,
+    DEBUG
+)
 
-
-def call_llm(prompt: str, num_predict: int = 350) -> str:
-    response = ollama.chat(
-        model=MODEL_NAME,
-        messages=[{"role": "user", "content": prompt}],
-        format="json",
-        options={
-            "temperature": 0.0,
-            "num_predict": num_predict,
-        },
+# ------------------------
+# JSON PARSER
+# ------------------------
+def call_fast_llm(prompt: str):
+    return call_llm_safe(
+        FAST_MODEL,
+        prompt,
+        FAST_TEMP,
+        FAST_MAX_TOKENS
     )
-    return response["message"]["content"]
 
+def call_smart_llm(prompt: str):
+    return call_llm_safe(
+        SMART_MODEL,
+        prompt,
+        SMART_TEMP,
+        SMART_MAX_TOKENS
+    )
+def parse_json_response(text: str):
+    """
+    Извлекает JSON из любого текста. Если не находит — возвращает пустой словарь.
+    """
+    if not text or not isinstance(text, str):
+        return {}
 
-def parse_json_response(text: str) -> dict:
-    """Парсинг JSON из ответа модели."""
-    text = text.strip()
+    # Ищем всё между первой { и последней }
+    match = re.search(r'(\{[\s\S]*\})', text)
+    if match:
+        clean_text = match.group(1)
+    else:
+        clean_text = text
 
-    if text.startswith("```"):
-        text = text.split("\n", 1)[1] if "\n" in text else text
-        if text.endswith("```"):
-            text = text[:-3]
+    # Убираем артефакты разметки
+    clean_text = clean_text.replace("```json", "").replace("```", "").strip()
 
-    start = text.find("{")
-    end = text.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        text = text[start : end + 1]
-
-    return json.loads(text)
-
-
-def call_llm_safe(prompt: str, retries: int = 2, num_predict: int = 350) -> dict:
-    """Вызов модели с повторными попытками при сбое парсинга."""
-    for attempt in range(retries):
+    try:
+        return json.loads(clean_text)
+    except Exception as e:
+        if DEBUG:
+            print(f"❌ Ошибка парсинга: {e}")
+            # Выводим кусок текста для понимания проблемы
+            snippet = text[:200].replace('\n', ' ')
+            print(f"Сырой текст: {snippet}...")
+        
+        # Последняя попытка: чистка комментариев
         try:
-            current_num_predict = num_predict + attempt * 120
-            raw = call_llm(prompt, num_predict=current_num_predict)
-            return parse_json_response(raw)
-        except (json.JSONDecodeError, KeyError, TypeError, ValueError) as e:
-            print(f"[attempt {attempt + 1}/{retries}] Ошибка парсинга: {e}")
-    return {}
+            stripped = re.sub(r'//.*', '', clean_text)
+            return json.loads(stripped)
+        except:
+            return {}
 
+# ------------------------
+# LLM CORE
+# ------------------------
 
-def extract_info(resume: str) -> dict:
+def call_llm_model(model_name: str, prompt: str, temperature: float, num_predict: int):
     """
-    Извлечение структурированной информации из текста резюме.
-    Возвращает: имя, навыки, опыт, образование, контакты.
+    Вызов модели БЕЗ параметра format='json' для большей стабильности Llama 3.1.
     """
-    prompt = f"""
-Ты извлекаешь структуру из резюме. Верни только JSON без markdown и без пояснений.
+    try:
+        response = ollama.chat(
+            model=model_name,
+            messages=[{"role": "user", "content": prompt}],
+            # format="json",  <-- УБРАНО: часто вызывает пустые ответы на малых моделях
+            options={
+                "temperature": temperature,
+                "num_predict": num_predict,
+                "top_p": 0.9,
+            },
+        )
+        return response["message"]["content"]
+    except Exception as e:
+        print(f"⚠️ Ошибка Ollama ({model_name}): {e}")
+        return ""
 
-Нужные поля:
-- name
-- position
-- experience_years
-- skills
-- education
-- email
-- phone
-- salary
-- summary
 
-Правила:
-- skills = массив коротких строк без дублей
-- experience_years = число или null
-- summary = 1-2 коротких предложения по сути опыта
-- если поле не найдено, используй null или пустой массив
+def call_llm_safe(model, prompt, temperature, max_tokens):
+    for attempt in range(MAX_RETRIES):
+        raw = call_llm_model(model, prompt, temperature, max_tokens)
+        if raw:
+            data = parse_json_response(raw)
+            # Если данных нет вообще — ретрай. Если есть хоть какой-то JSON — принимаем.
+            if data: 
+                return data
+        
+        if DEBUG:
+            print(f"[{model}] Попытка {attempt+1} не удалась...")
+            
+    return {} # Возвращаем пустой словарь вместо заглушки со score
 
-Резюме:
-{resume}
 
-Формат ответа:
-{{
-  "name": null,
-  "position": null,
-  "experience_years": null,
-  "skills": [],
-  "education": null,
-  "email": null,
-  "phone": null,
-  "salary": null,
-  "summary": null
-}}
-"""
-    return call_llm_safe(prompt, num_predict=320)
+# ------------------------
+# PROMPTS
+# ------------------------
 
-"""
-Написать пример для оценки скора и промпт поподробнее, с указанием что именно должно совпадать, какие навыки важные, и т.д.  
-"""
-def evaluate_candidate(candidate: dict, vacancy: str) -> dict:
-    candidate_text = candidate.get("text", "")
-    metadata = candidate.get("metadata", {})
-    candidate_name = metadata.get("name", "")
-    candidate_id = metadata.get("candidate_id") or candidate.get("id", "")
+FAST_MATCH_PROMPT = """You are an HR filter. Compare candidate to vacancy.
+Return ONLY a valid JSON object. No markdown, no code blocks, no extra text.
 
-    prompt = f"""
-Ты оцениваешь кандидата на вакансию. Верни только JSON без markdown и без пояснений.
+RULES:
+- match: true if candidate is in same/adjacent field OR has 1+ key skills from vacancy
+- score: 0-100. Be lenient: 50-69 = "pass to next stage", 0-29 = "wrong field", 70+ = "strong match"
+- reason: short string (<80 chars), in Russian
+- If unsure → set match:true, score:55. Better false positive than losing a good candidate.
 
-=== ВАКАНСИЯ ===
+[VACANCY]
 {vacancy}
 
-=== КАНДИДАТ ===
-ID: {candidate_id}
-Имя: {candidate_name}
-Текст резюме:
-{candidate_text}
+[RESUME]
+{candidate}
 
-=== КАК ОЦЕНИВАТЬ ===
-Сделай оценку УНИВЕРСАЛЬНО для любой вакансии, опираясь ТОЛЬКО на текст вакансии выше.
-
-1) Сначала выдели из вакансии:
-- обязательные требования (must-have),
-- желательные требования (nice-to-have),
-- условия (зарплата, формат, график, локация и т.д., если они явно указаны).
-
-2) Затем сравни кандидата с вакансией:
-- matched_skills: включай только то, что явно требуется в вакансии и действительно есть у кандидата;
-- missing_skills: включай только то, что требуется в вакансии, но у кандидата не найдено;
-- учитывай частичные/эквивалентные совпадения (похожие технологии) как частичный плюс, но не как полное совпадение must-have;
-- не дублируй пункты и не добавляй в missing то, что уже есть у кандидата.
-
-3) По опыту и роли:
-- оцени релевантность опыта именно к данной вакансии;
-- коммерческий и production-опыт приоритетнее учебных и pet-проектов;
-- experience_match = true только если кандидат в целом тянет обязательный уровень по опыту.
-
-4) По условиям:
-- salary_match = true только если ожидания кандидата вписываются в условия вакансии,
-  если в вакансии указана зарплата; если зарплата в вакансии не указана, ставь true.
-
-5) Итоговый score (0-100):
-- это вероятность, что кандидат подойдет на эту вакансию;
-- не считай по формуле, но must-have влияют сильнее nice-to-have;
-- если провалены ключевые must-have, score должен заметно снижаться;
-- используй всю шкалу, не округляй до десятков.
-
-Пиши кратко, фактически и без противоречий.
-
-=== ФОРМАТ ОТВЕТА ===
-Верни ТОЛЬКО JSON без markdown:
+[OUTPUT FORMAT - EXACTLY THIS, in Russian for 'reason']
 {{
-  "candidate_id": "{candidate_id}",
-  "name": "{candidate_name}",
-  "score": <число от 0 до 100>,
-  "matched_skills": [<что есть и нужно>],
-  "missing_skills": [<чего нет но требуется>],
-  "experience_match": <true/false>,
-  "salary_match": <true/false>,
-    "comment": "<1-3 коротких предложения: ключевые совпадения, ключевые пробелы и итог по интервью>"
-}}
-"""
-    return call_llm_safe(prompt, num_predict=220)
+  "match": true,
+  "score": 55,
+  "reason": "краткая причина на русском"
+}}"""
 
 
-def rank_candidates(candidates: list, vacancy: str) -> list:
-    results = []
+SMART_MATCH_PROMPT = """Ты — ведущий технический ассессор. Кандидаты уже прошли первичный отсев. Проведи глубокий аудит и выдай детализированную оценку для финального ранжирования.
 
-    for candidate in candidates:
-        evaluation = evaluate_candidate(candidate, vacancy)
-        raw_score = evaluation.get("score", 0)
-        try:
-            score = float(raw_score)
-        except (TypeError, ValueError):
-            score = 0.0
+ИЗВЛЕЧЕНИЕ ДАННЫХ:
+- name, phone, email: бери ТОЛЬКО из текста резюме. Если нет — ставь null. Не выдумывай.
+- phone: оставь как есть, не нормализуй.
+- email: проверяй наличие @ и домена.
 
-        results.append({
-            "id": candidate["id"],
-            "metadata": candidate["metadata"],
-            "score": score,
-            "evaluation": evaluation,
-        })
+СИСТЕМА ОЦЕНИВАНИЯ (веса):
+1. Stack & Hard Skills (40%): Совпадение стека, глубина опыта.
+2. Experience Relevance (30%): Длительность, масштаб задач, домен.
+3. Architecture & Context (20%): Процессы, методологии, софт-скиллы.
+4. Adjustments (-10% до +10%): Гэпы, job-hopping, pet-projects, сертификаты.
 
-    ranked = sorted(results, key=lambda x: x["score"], reverse=True)
+ПРАВИЛА:
+- score: целое 0-100, округляй до 5. Считай по весам.
+- strengths: 1-3 пункта, только конкретика ("5 лет в HighLoad", а не "ответственный").
+- weaknesses: 0-3 пункта. Только явные красные флаги. Нет флагов — пустой массив.
+- summary: 2-3 предложения, сухо, только факты для сравнения.
+- breakdown: объект с баллами по критериям. score должен коррелировать с ним.
+- Верни СТРОГО JSON. Без markdown, без комментариев.
 
-    for rank, candidate in enumerate(ranked, start=1):
-        candidate["rank"] = rank
+[ВАКАНСИЯ]
+{vacancy}
 
-    return ranked
+[РЕЗЮМЕ]
+{candidate}
+
+[ФОРМАТ ОТВЕТА]
+{{
+  "name": null,
+  "contact": {{"phone": null, "email": null}},
+  "score": 75,
+  "summary": "краткое описание",
+  "breakdown": {{
+    "stack_match": 80,
+    "experience_relevance": 70,
+    "architecture_context": 65,
+    "adjustment": 5
+  }},
+  "strengths": ["пункт1", "пункт2"],
+  "weaknesses": ["пункт1"]
+}}"""
 
 
-if __name__ == "__main__":
-    print("agent.py loaded OK")
+# ------------------------
+# MATCHING LOGIC
+# ------------------------
+
+def fast_filter(candidate: dict, vacancy: dict):
+    # Берем только суть, чтобы модель не "тупила" от объема
+    cand_brief = {
+        "pos": candidate.get("position"),
+        "skills": candidate.get("skills"),
+        "exp": candidate.get("experience_years")
+    }
+    
+    prompt = FAST_MATCH_PROMPT.format(
+        candidate=json.dumps(cand_brief, ensure_ascii=False),
+        vacancy=json.dumps(vacancy, ensure_ascii=False)[:1000],
+    )
+    return call_fast_llm(prompt)
+
+
+def smart_score(candidate: dict, vacancy: dict):
+    prompt = SMART_MATCH_PROMPT.format(
+        candidate=json.dumps(candidate, ensure_ascii=False)[:2000],
+        vacancy=json.dumps(vacancy, ensure_ascii=False)[:2000],
+    )
+    return call_smart_llm(prompt)
