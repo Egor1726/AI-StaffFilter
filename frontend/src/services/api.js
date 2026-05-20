@@ -8,7 +8,7 @@ export async function uploadResumes(archiveFile, requirementsFile) {
   let response;
 
   try {
-    response = await fetch(`${API_BASE_URL}/api/v1/resumes/upload`, {
+    response = await fetch(`${API_BASE_URL}api/v1/resumes/upload`, {
       method: "POST",
       body: formData,
     });
@@ -42,7 +42,7 @@ export async function downloadResult(taskId, fileName = "result.txt") {
   let response;
 
   try {
-    response = await fetch(`${API_BASE_URL}/api/v1/resumes/result/${taskId}`);
+    response = await fetch(`${API_BASE_URL}api/v1/resumes/result/${taskId}`);
   } catch {
     throw new Error(
       "Не удалось подключиться к backend при скачивании результата."
